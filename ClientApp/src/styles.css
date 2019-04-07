@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.shadow-box
+{
+    box-shadow: 3px 5px rgb(225,225,225);
+    margin: 10px 10px 10px 10px;
+    border: 1px rgb(225,225,225) solid;
+}
+.shadow-box-title
+{
+    background-color: rgb(200,200,200);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.shadow-box-body
+{
+    padding: 10px;
+}

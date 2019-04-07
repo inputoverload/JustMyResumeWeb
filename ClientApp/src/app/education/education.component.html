@@ -1,0 +1,7 @@
+<mat-tab-group>
+    <mat-tab *ngFor="let educationItem of educationItems" label="{{educationItem.description}}">
+          <div style="padding-top: 10px;">
+          <p [innerHtml]="educationItem.degree"></p>
+        </div>
+  </mat-tab>
+  </mat-tab-group>

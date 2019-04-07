@@ -1,0 +1,54 @@
+<form [formGroup]="skillsFormGroup"> 
+    <h4>Entry Level</h4>
+    <mat-form-field class="skill-chip-list" aria-label="${this.singularName} selection">
+      <mat-chip-list #entrySkills class="skill-chip-list">
+        <mat-chip *ngFor="let item of entryLevelSkills" [selectable]="selectable" [removable]="removable" (removed)="remove(item, 'Entry')">
+          {{item.name}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="New {{this.singularName}}..."
+               class="skill-chip-list"
+               [matChipInputFor]="entrySkills"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add($event, 'Entry')">              
+      </mat-chip-list>
+    </mat-form-field>
+    
+    <h4>Proficient</h4>
+    <mat-form-field class="skill-chip-list" aria-label="${this.singularName} selection">
+      <mat-chip-list #proficientSkills class="skill-chip-list">
+        <mat-chip *ngFor="let item of proficientLevelSkills" [selectable]="selectable" [removable]="removable" (removed)="remove(item, 'Proficient')">
+          {{item.name}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="New {{this.singularName}}..."
+               class="skill-chip-list"
+               [matChipInputFor]="proficientSkills"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add($event, 'Proficient')">              
+      </mat-chip-list>
+    </mat-form-field>
+    
+    <h4>Expert</h4>
+    <mat-form-field class="skill-chip-list" aria-label="${this.singularName} selection">
+      <mat-chip-list #expertSkills class="skill-chip-list">
+        <mat-chip *ngFor="let item of expertLevelSkills" [selectable]="selectable" [removable]="removable" (removed)="remove(item, 'Expert')">
+          {{item.name}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="New {{this.singularName}}..."
+               class="skill-chip-list"
+               [matChipInputFor]="expertSkills"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add($event, 'Expert')">              
+      </mat-chip-list>
+    </mat-form-field>
+  
+    <div>
+      <button mat-raised-button color="primary" matStepperPrevious>Back</button>&nbsp;
+      <button mat-raised-button color="primary" matStepperNext>Next</button>
+    </div>    
+  </form>

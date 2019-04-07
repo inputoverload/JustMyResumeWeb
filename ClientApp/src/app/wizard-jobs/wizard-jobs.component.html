@@ -1,0 +1,39 @@
+
+  <form [formGroup]="jobsFormGroup">
+
+    <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Employer</mat-label>
+      <input type="text" matInput placeholder="Employer" formControlName="employer" />
+    </mat-form-field>&nbsp;
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input type="text" matInput placeholder="Title" formControlName="title" />
+    </mat-form-field>&nbsp;
+    <mat-form-field appearance="fill">
+      <mat-label>Role</mat-label>
+      <input type="text" matInput placeholder="Role" formControlName="role" />
+    </mat-form-field>
+  </p>
+  <p>
+  <mat-form-field appearance="fill">
+    <mat-label>Start Date</mat-label>
+    <input type="text" matInput placeholder="Start Date" formControlName="startDate" />
+  </mat-form-field>&nbsp;
+  <mat-form-field appearance="fill">
+    <mat-label>End Date</mat-label>
+    <input type="text" matInput placeholder="End Date" formControlName="endDate" />
+  </mat-form-field>
+</p>
+<p>
+  <mat-form-field appearance="fill" style="width: 418px;">
+    <mat-label>Description</mat-label>
+    <textarea matInput rows="3" placeholder="Description" formControlName="description"></textarea>
+  </mat-form-field>
+</p>
+  
+<div>
+    <button mat-raised-button color="primary" matStepperPrevious>Back</button>&nbsp;
+    <button mat-raised-button color="primary" matStepperNext>Next</button>
+  </div>  
+</form>

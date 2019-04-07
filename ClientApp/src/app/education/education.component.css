@@ -1,0 +1,15 @@
+.rounded-box {
+    border: 1px solid black;
+    border-radius: 4px;
+    margin: 10px;
+}
+.left-text {
+    align-self: left;
+    text-align: left;
+    vertical-align: text-top;
+}
+.right-text {
+    align-self: right;
+    text-align: right;
+    vertical-align: text-top;
+}
