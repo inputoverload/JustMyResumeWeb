@@ -19,7 +19,9 @@ export class UserComponent implements OnInit {
     this.userService.getUser(id).subscribe(user => this.user = user)
   }
 
-  constructor(private activeRoute: ActivatedRoute, private userService: UserService, private location: Location) { }
+  constructor(private activeRoute: ActivatedRoute, private userService: UserService, private location: Location) {
+
+  }
 
   ngOnInit() {
     let id: number;

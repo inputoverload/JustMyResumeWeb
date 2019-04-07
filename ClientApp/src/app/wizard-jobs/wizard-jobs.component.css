@@ -1,0 +1,18 @@
+.col1{
+  display: flex;
+  flex-direction: column;
+  float: left;
+}
+
+.col2{
+  width: 300 px;
+  display: flex;
+  flex-direction: column;
+  float: right;
+}
+
+.col1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}

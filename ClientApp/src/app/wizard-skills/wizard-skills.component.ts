@@ -82,7 +82,14 @@ export class WizardSkillsComponent implements OnInit {
 
     // Add our skill
     if ((value || '').trim()) {
-      selectedSkills.push({name: value.trim(), skillLevel: skillLevel});
+      selectedSkills.push({
+        id: 0,
+        userId: 0,
+        skillCategoryId: 0,
+        name: value.trim(),
+        skillLevel: skillLevel,
+        sortOrder: 0
+      });
     }
 
     // Reset the input value

@@ -26,8 +26,8 @@ export class ResumeWizardComponent implements OnInit {
   // languageSkillsFormGroup: FormGroup;
   // apiSkillsFormGroup: FormGroup;
   // DbSkillsFormGroup: FormGroup;
-  //educationFormGroup: FormGroup;
-  //projectFormGroup: FormGroup;
+  // educationFormGroup: FormGroup;
+  // projectFormGroup: FormGroup;
 
   @ViewChild(WizardUserComponent) wizardUser: WizardUserComponent;
   @ViewChild(WizardJobsComponent) wizardJobs: WizardJobsComponent;

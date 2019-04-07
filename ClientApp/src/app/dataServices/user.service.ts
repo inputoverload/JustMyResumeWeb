@@ -37,8 +37,7 @@ export class UserService {
     let retval = this.http.post<User>(
       `${this.url}`, 
       JSON.stringify(user), 
-      httpOptions)
-      .subscribe(resp => { return resp; });
+      httpOptions);
     return retval;
   }
 

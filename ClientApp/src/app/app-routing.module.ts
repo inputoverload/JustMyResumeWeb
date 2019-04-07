@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ResumeSummaryComponent } from './resume-summary/resume-summary.component';
-import { UserEditorComponent } from './user-editor/user-editor.component';
 import { ResumeWizardComponent } from './resume-wizard/resume-wizard.component';
 
 const routes: Routes = [
