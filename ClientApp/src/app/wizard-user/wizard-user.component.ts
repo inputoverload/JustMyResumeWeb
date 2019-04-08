@@ -15,16 +15,16 @@ export class WizardUserComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder) {
 
     this.userFormGroup = this._formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: [''],
+      lastName: [''],
       streetAddress: [''],
       streetAddress2: [''],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
+      city: [''],
+      state: [''],
       zipCode: [''],
       phone: [''],
       phone2: [''],
-      email: ['', Validators.required]
+      email: ['']
     }); }
 
   ngOnInit() {

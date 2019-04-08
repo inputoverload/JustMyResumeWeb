@@ -20,10 +20,13 @@ import { JobComponent } from './job/job.component';
 import { EducationComponent } from './education/education.component';
 import { ProjectComponent } from './project/project.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ResumeWizardComponent } from './resume-wizard/resume-wizard.component';
 import { WizardJobsComponent } from './wizard-jobs/wizard-jobs.component';
 import { WizardUserComponent } from './wizard-user/wizard-user.component';
 import { WizardSkillsComponent } from './wizard-skills/wizard-skills.component';
+import { WizardEducationItemComponent } from './wizard-education-item/wizard-education-item.component';
+import { WizardProjectComponent } from './wizard-project/wizard-project.component';
+import { ResumeWizardComponent } from './resume-wizard/resume-wizard.component';
+
 
 @NgModule({
   declarations: [
@@ -40,10 +43,12 @@ import { WizardSkillsComponent } from './wizard-skills/wizard-skills.component';
     EducationComponent,
     ProjectComponent,
     TechSkillComponent,
-    ResumeWizardComponent,
     WizardJobsComponent,
     WizardUserComponent,
-    WizardSkillsComponent
+    WizardSkillsComponent,
+    WizardEducationItemComponent,
+    WizardProjectComponent,
+    ResumeWizardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

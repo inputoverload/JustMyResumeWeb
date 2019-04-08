@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { MaterialModule } from '../material';
-import { MatTableDataSource } from '@angular/material/table';
 import { Job } from '../models/job';
 import { JobService } from '../dataServices/job.service';
 import { forEach } from '@angular/router/src/utils/collection';
@@ -39,6 +38,10 @@ export class WizardJobsComponent implements OnInit {
       endDate: [''],
       description: ['']
     });
+  }
+
+  ngOnInit() {
+    this.loadData();
   }
 
   displayData() {
@@ -117,9 +120,6 @@ export class WizardJobsComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-  }
-
   getPaginatorData(event) {
 
     if (event.pageIndex === this.pageIndex + 1) {
@@ -153,8 +153,9 @@ export class WizardJobsComponent implements OnInit {
     this.deletedJobs = [];
     if (this.userId === 0) {
       this.jobs = [];
+    } else {
+      this._jobService.getJobs(this.userId).subscribe(items => this.jobs = items);
     }
-    this.jobs = this.userId == 0 ? [] : this._jobService.getJobs(this.userId);
   }
 
 }

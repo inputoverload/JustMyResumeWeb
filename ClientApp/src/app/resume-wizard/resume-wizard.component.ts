@@ -7,8 +7,8 @@ import { MaterialModule } from '../material';
 import { WizardJobsComponent } from '../wizard-jobs/wizard-jobs.component';
 import { WizardUserComponent } from '../wizard-user/wizard-user.component';
 import { WizardSkillsComponent } from '../wizard-skills/wizard-skills.component';
-import { WizardJobs } from '../wizard-jobs/wizard-jobs.component';
-
+import { WizardEducationItemComponent } from '../wizard-education-item/wizard-education-item.component';
+import { WizardProjectComponent } from '../wizard-project/wizard-project.component';
 
 export interface ITechSkill
 {
@@ -24,17 +24,14 @@ export interface ITechSkill
   styleUrls: ['./resume-wizard.component.css']
 })
 export class ResumeWizardComponent implements OnInit {
-  // languageSkillsFormGroup: FormGroup;
-  // apiSkillsFormGroup: FormGroup;
-  // DbSkillsFormGroup: FormGroup;
-  // educationFormGroup: FormGroup;
-  // projectFormGroup: FormGroup;
 
   @ViewChild(WizardUserComponent) wizardUser: WizardUserComponent;
   @ViewChild(WizardJobsComponent) wizardJobs: WizardJobsComponent;
   @ViewChild(WizardSkillsComponent) wizardSkillLanguages: WizardSkillsComponent;
   @ViewChild(WizardSkillsComponent) wizardSkillApi: WizardSkillsComponent;
   @ViewChild(WizardSkillsComponent) wizardSkillsDb: WizardSkillsComponent;
+  @ViewChild(WizardEducationItemComponent) wizardEducationItems: WizardEducationItemComponent;
+  @ViewChild(WizardProjectComponent) wizardProjects: WizardProjectComponent;
 
   get userFormGroup() {
     return this.wizardUser ? this.wizardUser.userFormGroup : null;
@@ -42,6 +39,15 @@ export class ResumeWizardComponent implements OnInit {
 
   get jobsFormGroup() {
     return this.wizardJobs ? this.wizardJobs.jobsFormGroup : null;
+  }
+
+  get educationItemsFormGroup() {
+    return this.wizardEducationItems ? this.wizardEducationItems.educationItemsFormGroup : null;
+  }
+
+  get projectsFormGroup() {
+    console.warn(this.wizardProjects + ' ' + this.wizardProjects.projectsFormGroup);
+    return this.wizardProjects ? this.wizardProjects.projectsFormGroup : null;
   }
 
   constructor(private _formBuilder: FormBuilder) {}

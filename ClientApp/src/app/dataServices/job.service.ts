@@ -29,7 +29,7 @@ export class JobService {
   }
 
   getJobs(userId: number): Observable<Job[]> {
-    let retval = this.http.get<Job[]>(`${this.url}\Users\${userId}`);
+    let retval = this.http.get<Job[]>(`${this.url}/Users/${userId}`);
     return retval;
   }
 

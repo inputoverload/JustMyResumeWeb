@@ -2,10 +2,12 @@
   <div class="col1">
     <form [formGroup]="jobsFormGroup">
       <p>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" style="width: 418px;">
           <mat-label>Employer</mat-label>
           <input type="text" matInput placeholder="Employer" formControlName="employer" />
-        </mat-form-field>&nbsp;
+        </mat-form-field>
+      </p>
+      <p>
         <mat-form-field appearance="fill">
           <mat-label>Title</mat-label>
           <input type="text" matInput placeholder="Title" formControlName="title" />
@@ -28,7 +30,7 @@
       <p>
         <mat-form-field appearance="fill" style="width: 418px;">
           <mat-label>Description</mat-label>
-          <textarea matInput rows="3" placeholder="Description" formControlName="description"></textarea>
+          <textarea matInput rows="4" placeholder="Description" formControlName="description"></textarea>
         </mat-form-field>
       </p>
       <div style="margin-top: 20px; text-align: center;">
@@ -37,10 +39,6 @@
         <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
       </div>
 
-      <div>
-        <button mat-raised-button color="primary" matStepperPrevious>Back</button>&nbsp;
-        <button mat-raised-button color="primary" matStepperNext>Next</button>
-      </div>
     </form>
   </div>
   <div class="col2">
@@ -66,4 +64,7 @@
     <mat-paginator #paginator [length]="this.jobs.length" [pageSize]="5" (page)="pageEvent = getPaginatorData($event)"></mat-paginator>
   </div>
 </div>
-
+<div style="margin-top: 20px;">
+  <button mat-raised-button color="primary" matStepperPrevious>Back</button>&nbsp;
+  <button mat-raised-button color="primary" matStepperNext>Next</button>
+</div>
