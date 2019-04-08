@@ -10,8 +10,9 @@ import { DataConfigModule } from './data-config';
 })
 export class SkillCategoryService {
   private url = DataConfigModule.SERVER + '/api/skillCategories';
-
-  constructor(private http: HttpClient) { }
+  
+  constructor(private http: HttpClient) {
+  }
 
   getSkillCategories(): Observable<SkillCategory[]> {
     const retval = this.http.get<SkillCategory[]>(this.url);

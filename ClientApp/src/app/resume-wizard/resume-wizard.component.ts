@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { MaterialModule } from '../material';
 
@@ -9,6 +11,8 @@ import { WizardUserComponent } from '../wizard-user/wizard-user.component';
 import { WizardSkillsComponent } from '../wizard-skills/wizard-skills.component';
 import { WizardEducationItemComponent } from '../wizard-education-item/wizard-education-item.component';
 import { WizardProjectComponent } from '../wizard-project/wizard-project.component';
+import { SkillCategory } from '../models/skill-category';
+import { SkillCategoryService } from '../dataServices/skill-category.service';
 
 export interface ITechSkill
 {
@@ -33,6 +37,8 @@ export class ResumeWizardComponent implements OnInit {
   @ViewChild(WizardEducationItemComponent) wizardEducationItems: WizardEducationItemComponent;
   @ViewChild(WizardProjectComponent) wizardProjects: WizardProjectComponent;
 
+  userId: number;
+
   get userFormGroup() {
     return this.wizardUser ? this.wizardUser.userFormGroup : null;
   }
@@ -46,11 +52,21 @@ export class ResumeWizardComponent implements OnInit {
   }
 
   get projectsFormGroup() {
-    console.warn(this.wizardProjects + ' ' + this.wizardProjects.projectsFormGroup);
     return this.wizardProjects ? this.wizardProjects.projectsFormGroup : null;
   }
 
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor(private activeRoute: ActivatedRoute,
+    private location: Location,
+    private _formBuilder: FormBuilder,
+    private _skillCategoryService: SkillCategoryService) {
+
+    let id: number;
+    id = +this.activeRoute.snapshot.paramMap.get('id');
+    if (id == undefined) {
+      id = 0;
+    }
+    this.userId = id;
+  }
 
   ngOnInit() {
   }

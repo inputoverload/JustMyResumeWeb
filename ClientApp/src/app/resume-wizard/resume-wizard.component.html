@@ -7,31 +7,31 @@
 
   <mat-step [stepControl]="languageStep.skillsFormGroup">
     <ng-template matStepLabel>Enter your Language skills.</ng-template>
-    <app-wizard-skills #languageStep [skillType]="this.languageSkills"></app-wizard-skills>
+    <app-wizard-skills #languageStep [skillType]="languageStep.LANGUAGE_SKILLS" [userId]="this.userId"></app-wizard-skills>
   </mat-step>
 
   <mat-step [stepControl]="apiSkillsStep.skillsFormGroup">
     <ng-template matStepLabel>Enter your API skills.</ng-template>
-    <app-wizard-skills #apiSkillsStep [skillType]="this.apiSkills"></app-wizard-skills>
+    <app-wizard-skills #apiSkillsStep [skillType]="apiSkillsStep.API_SKILLS" [userId]="this.userId"></app-wizard-skills>
   </mat-step>
 
   <mat-step [stepControl]="dbSkillsStep.skillsFormGroup">
     <ng-template matStepLabel>Enter your Database skills</ng-template>
-    <app-wizard-skills #dbSkillsStep [skillType]="this.dbSkills"></app-wizard-skills>
+    <app-wizard-skills #dbSkillsStep [skillType]="dbSkillsStep.DB_SKILLS" [userId]="this.userId"></app-wizard-skills>
   </mat-step>
 
   <mat-step [stepControl]="jobsStep.jobsFormGroup">
     <ng-template matStepLabel>Fill out your employment history</ng-template>
-    <app-wizard-jobs #jobsStep [userId]="1"></app-wizard-jobs>
+    <app-wizard-jobs #jobsStep [userId]="this.userId"></app-wizard-jobs>
   </mat-step>
 
   <mat-step [stepControl]="educationItemsStep.educationItemsFormGroup">
     <ng-template matStepLabel>Fill out your education history</ng-template>
-    <app-wizard-education-item #educationItemsStep [userId]="1"></app-wizard-education-item>
+    <app-wizard-education-item #educationItemsStep [userId]="this.userId"></app-wizard-education-item>
   </mat-step>
 
   <mat-step [stepControl]="projectsStep.projectsFormGroup">
     <ng-template matStepLabel>List your demo projects</ng-template>
-    <app-wizard-project #projectsStep [userId]="1"></app-wizard-project>
+    <app-wizard-project #projectsStep [userId]="this.userId"></app-wizard-project>
   </mat-step>
 </mat-vertical-stepper>
