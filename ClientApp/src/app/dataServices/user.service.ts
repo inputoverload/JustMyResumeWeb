@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DataConfigModule } from './data-config';
 
 import { User } from '../models/user';
-import { MaterialModule } from '../material';
 
 export interface DialogData
 {
@@ -44,5 +43,10 @@ export class UserService {
   updateUser(user: User): void {
     this.http.put<User>(`${this.url}/${user.id}`, JSON.stringify(user), httpOptions)
     .subscribe(resp => {return;});
+  }
+
+  deleteUser(id: number): void {
+    this.http.delete(`${this.url}/${id}`, httpOptions)
+      .subscribe(resp => { return; });
   }
 }

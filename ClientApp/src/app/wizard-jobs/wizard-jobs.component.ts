@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import { MaterialModule } from '../material';
 import { MatTableDataSource } from '@angular/material/table';
 import { Job } from '../models/job';
+import { JobService } from '../dataServices/job.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-wizard-jobs',
@@ -11,21 +13,23 @@ import { Job } from '../models/job';
   styleUrls: ['./wizard-jobs.component.css']
 })
 export class WizardJobsComponent implements OnInit {
+  @Input("userId")
+  userId: number;
+
   jobsFormGroup: FormGroup;
   currentJob: Job;
   newJobId: number = 0;
-  dataSource: MatTableDataSource<Job> = new MatTableDataSource<Job>();
 
   pageIndex: number = 0;
   pageSize: number = 5;
   lowValue: number = 0;
   highValue: number = 5; 
 
-  jobs: Job[] = [{ id: 1, userId: 1, employer: "ABC Inc", title: "Janitor", role: "floor sweeper", description: "I swept.", startDate: "May 2001", endDate: "Dec 2004", sortOrder: 0 },
-    { id: 2, userId: 1, employer: "Longname Consolidated Couriers", title: "Janitor", role: "floor mopper", description: "I mopped.", startDate: "Jan 2005", endDate: "Jun 2009", sortOrder: 0 }];
+  jobs: Job[] = [];
+  deletedJobs: Job[] = [];
   columnsToDiplay = ['employer', 'actions'];
 
-  constructor(private _formBuilder: FormBuilder) { 
+  constructor(private _formBuilder: FormBuilder, private _jobService: JobService) { 
 
     this.jobsFormGroup = this._formBuilder.group({
       employer: [''],
@@ -92,12 +96,28 @@ export class WizardJobsComponent implements OnInit {
   }
 
   edit(employer: string) {
-    this.currentJob = this.jobs.find<Job>(item => item.employer == employer);
+    this.currentJob = this.findJob(employer);
     this.displayData();
   }
 
+  findJob(employer: string): Job {
+
+    return this.jobs.find<Job>(item => item.employer == employer);
+  }
+
+  delete(employer: string) {
+    let job: Job = this.findJob(employer);
+    let index: number = this.jobs.indexOf(job);
+    this.jobs.splice(index, 1);
+
+    if (job.id < 1) {
+      return;
+    } else {
+      this.deletedJobs.push(job);
+    }
+  }
+
   ngOnInit() {
-    this.dataSource.data = this.jobs;
   }
 
   getPaginatorData(event) {
@@ -111,6 +131,30 @@ export class WizardJobsComponent implements OnInit {
       this.highValue = this.highValue - this.pageSize;
     }
     this.pageIndex = event.pageIndex;
+  }
+
+  public saveData() {
+    let item: Job;
+
+    for (let i: number; this.jobs.length > i; i++)
+    {
+      item = this.jobs[i];
+      this._jobService.updateJob(item);
+    }
+
+    for (let i: number; this.deletedJobs.length > i; i++) {
+      item = this.jobs[i];
+      this._jobService.deleteJob(item.id);
+    }
+
+  }
+
+  public loadData() {
+    this.deletedJobs = [];
+    if (this.userId === 0) {
+      this.jobs = [];
+    }
+    this.jobs = this.userId == 0 ? [] : this._jobService.getJobs(this.userId);
   }
 
 }

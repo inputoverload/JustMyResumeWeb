@@ -7,6 +7,7 @@ import { MaterialModule } from '../material';
 import { WizardJobsComponent } from '../wizard-jobs/wizard-jobs.component';
 import { WizardUserComponent } from '../wizard-user/wizard-user.component';
 import { WizardSkillsComponent } from '../wizard-skills/wizard-skills.component';
+import { WizardJobs } from '../wizard-jobs/wizard-jobs.component';
 
 
 export interface ITechSkill

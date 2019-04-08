@@ -21,8 +21,8 @@
   <app-wizard-skills #dbSkillsStep [skillType]="this.dbSkills"></app-wizard-skills>
 </mat-step>
 
-<mat-step [stepControl]="jobStep.jobsFormGroup">
+<mat-step [stepControl]="jobsStep.jobsFormGroup">
     <ng-template matStepLabel>Fill out your employment history</ng-template>
-    <app-wizard-jobs #jobStep></app-wizard-jobs>
+    <app-wizard-jobs #jobsStep [userId]="0"></app-wizard-jobs>
 </mat-step>
 </mat-vertical-stepper>
