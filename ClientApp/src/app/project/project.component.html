@@ -1,8 +1,8 @@
 <mat-tab-group class="top-tab-group">
     <mat-tab *ngFor="let project of projects" label="{{project.name}}">
           <div style="padding-top: 10px;">
-          <p><a href='{{project.demoUrl}}'>Live Demo</a></p>
-          <p><a href='{{project.gitHubUrl}}'>Source Code</a></p>
+            <p>Live Demo:  {{project.demoUrl}}</p>
+            <p>Source Code: {{project.gitHubUrl}}</p>
           <p [innerHtml]="project.description"></p>
         </div>
   </mat-tab>

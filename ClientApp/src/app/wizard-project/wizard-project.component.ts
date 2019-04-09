@@ -84,7 +84,6 @@ export class WizardProjectComponent implements OnInit {
 
     if (this.currentItem.id == undefined || this.currentItem.id == 0) {
       this.currentItem.id = --this.newItemId;
-      //this.items.push(this.currentItem);
     }
 
     this.retrieveData();

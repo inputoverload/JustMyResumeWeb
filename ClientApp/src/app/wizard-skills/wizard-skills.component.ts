@@ -34,7 +34,7 @@ export class WizardSkillsComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  
+
   get entryLevelSkills() {
     return this._entrySkills;
   }
@@ -43,57 +43,6 @@ export class WizardSkillsComponent implements OnInit {
   }
   get expertLevelSkills() {
     return this._expertSkills;
-  }
-
-  _entrySkills: TechSkill[] = null;
-  _proficientSkills: TechSkill[] = null;
-  _expertSkills: TechSkill[] = null;
-  _allSkills: TechSkill[] = null;
-
-  skillCategories: SkillCategory[];
-
-  skillsFormGroup: FormGroup;
-
-  initializeSkills() {
-    let skillId: number = 0;
-    let skillName: String;
-
-    switch (this.skill) {
-      case this.LANGUAGE_SKILLS:
-        skillName = 'Languages';
-        break;
-      case this.API_SKILLS:
-        skillName = 'APIs';
-        break;
-      case this.DB_SKILLS:
-        skillName = 'Databases';
-        break;
-    }
-    skillId = this.skillCategories.filter(item => item.name === skillName)[0].id;
-    this._entrySkills = this._allSkills.filter(item => item.skillCategoryId === skillId && item.skillLevel === 'Entry');
-    this._proficientSkills = this._allSkills.filter(item => item.skillCategoryId === skillId && item.skillLevel === 'Proficient');
-    this._expertSkills = this._allSkills.filter(item => item.skillCategoryId === skillId && item.skillLevel === 'Expert');   
-  }
-
-  constructor(private _formBuilder: FormBuilder,
-    private _skillService: TechSkillService, 
-    catService: SkillCategoryService) {
-    this.skillsFormGroup = this._formBuilder.group({
-      entrySkills: [''],
-      proficientSkills: [''],
-      expertSkills: ['']
-    });
-
-    catService.getSkillCategories().subscribe(values => this.skillCategories = values,
-      error => console.log('error:' + error),
-      () => this._skillService.getTechSkills(this.userId).subscribe(values => this._allSkills = values,
-        error => console.log("Error: ", error),
-        () => this.initializeSkills()
-        )
-      ); 
-  }
-
-  ngOnInit() {
   }
 
   get DB_SKILLS() {
@@ -118,6 +67,85 @@ export class WizardSkillsComponent implements OnInit {
         return 'Database';
         break;
     }
+  }
+
+  private _entrySkills: TechSkill[] = null;
+  private _proficientSkills: TechSkill[] = null;
+  private _expertSkills: TechSkill[] = null;
+  private _allSkills: TechSkill[] = null;
+  private _deletedItems: TechSkill[] = [];
+  private skillCategoryId: number = 0;
+
+  skillCategories: SkillCategory[];
+
+  skillsFormGroup: FormGroup;
+
+  initializeSkills() {
+    let skillName: String;
+
+    switch (this.skill) {
+      case this.LANGUAGE_SKILLS:
+        skillName = 'Languages';
+        break;
+      case this.API_SKILLS:
+        skillName = 'APIs';
+        break;
+      case this.DB_SKILLS:
+        skillName = 'Databases';
+        break;
+    }
+    this.skillCategoryId = this.skillCategories.filter(item => item.name === skillName)[0].id;
+    this._entrySkills = this._allSkills.filter(item => item.skillCategoryId === this.skillCategoryId && item.skillLevel === 'Entry');
+    this._proficientSkills = this._allSkills.filter(item => item.skillCategoryId === this.skillCategoryId && item.skillLevel === 'Proficient');
+    this._expertSkills = this._allSkills.filter(item => item.skillCategoryId === this.skillCategoryId && item.skillLevel === 'Expert');
+  }
+
+  constructor(private _formBuilder: FormBuilder,
+    private _skillService: TechSkillService,
+    private _categoryService: SkillCategoryService) {
+    this.skillsFormGroup = this._formBuilder.group({
+      entrySkills: [''],
+      proficientSkills: [''],
+      expertSkills: ['']
+    });
+    this.loadData();
+  }
+
+  ngOnInit() {
+  }
+
+  loadData() {
+    this._categoryService.getSkillCategories().subscribe(values => this.skillCategories = values,
+      error => console.log('error:' + error),
+      () => this._skillService.getTechSkills(this.userId).subscribe(values => this._allSkills = values,
+        error => console.log("Error: ", error),
+        () => this.initializeSkills()
+      )
+    );
+  }
+
+  cancel() {
+    this.loadData();
+  }
+
+  save() {
+    let skills: TechSkill[] = [];
+    let id: number;
+
+    skills = skills.concat(this._entrySkills, this._proficientSkills, this._expertSkills);
+    for (let item of skills) {
+      if (item.id < 1) {
+        this._skillService.addTechSkill(item);
+      } else {
+        this._skillService.updateTechSkill(item);
+      }
+    }
+
+    for (let item of this._deletedItems) {
+      this._skillService.deleteTechSkill(item.id);
+    }
+
+    this.loadData();
   }
   
   add(event: MatChipInputEvent, skillLevel: string): void {
@@ -144,7 +172,7 @@ export class WizardSkillsComponent implements OnInit {
       selectedSkills.push({
         id: 0,
         userId: this.userId,
-        skillCategoryId: 0,
+        skillCategoryId: this.skillCategoryId,
         name: value.trim(),
         skillLevel: skillLevel,
         sortOrder: 0
@@ -159,6 +187,8 @@ export class WizardSkillsComponent implements OnInit {
 
   remove(skill: TechSkill, skillLevel: string): void {    
     var selectedSkills: TechSkill[];
+
+    alert('here');
 
     switch(skillLevel)
     {
@@ -177,6 +207,9 @@ export class WizardSkillsComponent implements OnInit {
 
     if (index >= 0) {
       selectedSkills.splice(index, 1);
+      if (skill.id > 0) {
+        this._deletedItems.push(skill);
+      }
     }
   }
 }
