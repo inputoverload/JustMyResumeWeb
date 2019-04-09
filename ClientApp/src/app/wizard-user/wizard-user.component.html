@@ -1,51 +1,51 @@
 <form [formGroup]="userFormGroup">
-    <p>
+  <p>
     <mat-form-field appearance="fill">
       <mat-label>First Name</mat-label>
       <input type="text" matInput placeholder="First Name" formControlName="firstName" />
     </mat-form-field>&nbsp;
     <mat-form-field appearance="fill">
-        <mat-label>Last Name</mat-label>
-    <input type="text" matInput placeholder="Last Name" formControlName="lastName"/>
-  </mat-form-field>
+      <mat-label>Last Name</mat-label>
+      <input type="text" matInput placeholder="Last Name" formControlName="lastName" />
+    </mat-form-field>
   </p>
   <p>
-  <mat-form-field appearance="fill">
-    <mat-label>Street Address 1</mat-label>
-    <input type="text" matInput placeholder="Street Address 1" formControlName="streetAddress"/>
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Street Address 1</mat-label>
+      <input type="text" matInput placeholder="Street Address 1" formControlName="streetAddress" />
+    </mat-form-field>
   </p>
   <p>
-  <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill">
       <mat-label>Street Address 2</mat-label>
-    <input type="text" matInput placeholder="Street Address 2" formControlName="streetAddress2"/>
-  </mat-form-field>
+      <input type="text" matInput placeholder="Street Address 2" formControlName="streetAddress2" />
+    </mat-form-field>
   </p>
   <p>
-  <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill">
       <mat-label>City</mat-label>
-    <input type="text" matInput placeholder="City" formControlName="city"/>
-  </mat-form-field>&nbsp;
-  <mat-form-field appearance="fill">
-    <mat-label>State</mat-label>
-    <input type="text" matInput placeholder="State" formControlName="state"/>
-  </mat-form-field>&nbsp;
-  <mat-form-field appearance="fill">
+      <input type="text" matInput placeholder="City" formControlName="city" />
+    </mat-form-field>&nbsp;
+    <mat-form-field appearance="fill">
+      <mat-label>State</mat-label>
+      <input type="text" matInput placeholder="State" formControlName="state" />
+    </mat-form-field>&nbsp;
+    <mat-form-field appearance="fill">
       <mat-label>Zip Code</mat-label>
-    <input type="text" matInput placeholder="Zip Code" formControlName="zipCode"/>
-  </mat-form-field>
+      <input type="text" matInput placeholder="Zip Code" formControlName="zipCode" />
+    </mat-form-field>
   </p>
   <p>
-  <mat-form-field appearance="fill">
-    <mat-label>Phone 1</mat-label>
-    <input type="text" matInput placeholder="Phone 1" formControlName="phone"/>
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Phone 1</mat-label>
+      <input type="text" matInput placeholder="Phone 1" formControlName="phone" />
+    </mat-form-field>
   </p>
   <p>
-  <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill">
       <mat-label>Phone 2</mat-label>
-    <input type="text" matInput placeholder="Phone 2" formControlName="phone2"/>
-  </mat-form-field>
+      <input type="text" matInput placeholder="Phone 2" formControlName="phone2" />
+    </mat-form-field>
   </p>
   <p>
     <mat-form-field appearance="fill">
@@ -53,11 +53,11 @@
       <input type="text" matInput placeholder="Email" formControlName="email" />
     </mat-form-field>
   </p>
-    <div style="margin-top: 20px; text-align: center;">
-      <button mat-raised-button color="primary" (click)="save()">Save</button>&nbsp;
-      <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
-    </div>
+  <div style="margin-top: 20px; text-align: center;">
+    <button mat-raised-button color="primary" (click)="save()">Save</button>&nbsp;
+    <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
+  </div>
   <div>
     <button mat-raised-button color="primary" matStepperNext>Next</button>
-  </div>    
-  </form>
+  </div>
+</form>

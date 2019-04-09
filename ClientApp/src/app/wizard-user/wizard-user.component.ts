@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { MaterialModule } from '../material';
@@ -19,6 +19,7 @@ export class WizardUserComponent implements OnInit {
 
   constructor(private activeRoute: ActivatedRoute,
                 private location: Location,
+                private router: Router, 
                 private _formBuilder: FormBuilder,
                 private _dataService: UserService) {
 
@@ -45,12 +46,24 @@ export class WizardUserComponent implements OnInit {
   }
 
   save() {
+    let isNew: boolean = this.user.id < 1;
 
+    this.retrieveData();
+    if (isNew) {
+      this._dataService.addUser(this.user).subscribe(
+        item => this.user = item,
+        error => alert('An error occurred while saving: ' + error.message),
+        () => this.router.navigateByUrl(`/resume/wizard/${this.user.id}`)
+      );
+    } else {
+      this._dataService.updateUser(this.user);
+    }
   }
 
   cancel() {
-
-}
+    this.router.navigateByUrl('/resume/1');
+    return;
+  }
 
   retrieveData() {
     this.user.firstName = this.userFormGroup.get("firstName").value;
@@ -61,6 +74,7 @@ export class WizardUserComponent implements OnInit {
     this.user.state = this.userFormGroup.get("state").value;
     this.user.zipCode = this.userFormGroup.get("zipCode").value;
     this.user.phone = this.userFormGroup.get("phone").value;
+    this.user.phone2 = this.userFormGroup.get("phone2").value;
     this.user.email = this.userFormGroup.get("email").value;
   }
 
@@ -72,7 +86,8 @@ export class WizardUserComponent implements OnInit {
      this.userFormGroup.get("city").setValue(this.user.city);
      this.userFormGroup.get("state").setValue(this.user.state);
      this.userFormGroup.get("zipCode").setValue(this.user.zipCode);
-     this.userFormGroup.get("phone").setValue(this.user.phone);
+    this.userFormGroup.get("phone").setValue(this.user.phone);
+    this.userFormGroup.get("phone2").setValue(this.user.phone2);
      this.userFormGroup.get("email").setValue(this.user.email);
   }
 
@@ -85,6 +100,7 @@ export class WizardUserComponent implements OnInit {
     this.userFormGroup.get("state").setValue('');
     this.userFormGroup.get("zipCode").setValue('');
     this.userFormGroup.get("phone").setValue('');
+    this.userFormGroup.get("phone2").setValue('');
     this.userFormGroup.get("email").setValue('');
   }
 
@@ -101,6 +117,7 @@ export class WizardUserComponent implements OnInit {
   loadData() {
     if (this.userId < 1) {
       this.user = new User();
+      this.user.id = 0;
     } else {
       this._dataService.getUser(this.userId)
         .subscribe(item => this.user = item,
