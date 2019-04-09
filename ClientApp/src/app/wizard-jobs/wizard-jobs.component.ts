@@ -28,7 +28,7 @@ export class WizardJobsComponent implements OnInit {
   deletedJobs: Job[] = [];
   columnsToDiplay = ['employer', 'actions'];
 
-  constructor(private _formBuilder: FormBuilder, private _jobService: JobService) { 
+  constructor(private _formBuilder: FormBuilder, private _dataService: JobService) { 
 
     this.jobsFormGroup = this._formBuilder.group({
       employer: [''],
@@ -99,6 +99,16 @@ export class WizardJobsComponent implements OnInit {
 
     this.retrieveData();
 
+    if (this.currentJob.id < 1) {
+      this._dataService.addJob(this.currentJob).subscribe(
+        item => this.currentJob = item,
+        error => alert('An error occurred while saving: ' + error),
+        () => this.jobs.push(this.currentJob)
+      );
+    } else {
+      this._dataService.updateJob(this.currentJob);
+    }
+
     this.clearData();
     this.currentJob = null;
   }
@@ -118,15 +128,14 @@ export class WizardJobsComponent implements OnInit {
       alert("You must save the personal information on the first page before saving anything else.");
       return;
     }
-    let job: Job = this.findJob(employer);
-    let index: number = this.jobs.indexOf(job);
-    this.jobs.splice(index, 1);
 
-    if (job.id < 1) {
-      return;
-    } else {
-      this.deletedJobs.push(job);
+    let item: Job = this.findJob(employer);
+    if (item.id > 0) {
+      this._dataService.deleteJob(item.id);
     }
+
+    let index: number = this.jobs.indexOf(item);
+    this.jobs.splice(index, 1);
   }
 
   getPaginatorData(event) {
@@ -142,28 +151,12 @@ export class WizardJobsComponent implements OnInit {
     this.pageIndex = event.pageIndex;
   }
 
-  public saveData() {
-    let item: Job;
-
-    for (let i: number; this.jobs.length > i; i++)
-    {
-      item = this.jobs[i];
-      this._jobService.updateJob(item);
-    }
-
-    for (let i: number; this.deletedJobs.length > i; i++) {
-      item = this.jobs[i];
-      this._jobService.deleteJob(item.id);
-    }
-
-  }
-
   public loadData() {
     this.deletedJobs = [];
     if (this.userId === 0) {
       this.jobs = [];
     } else {
-      this._jobService.getJobs(this.userId).subscribe(items => this.jobs = items);
+      this._dataService.getJobs(this.userId).subscribe(items => this.jobs = items);
     }
   }
 

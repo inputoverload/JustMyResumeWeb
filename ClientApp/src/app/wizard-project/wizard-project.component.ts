@@ -74,7 +74,7 @@ export class WizardProjectComponent implements OnInit {
 
   save() {
     if (this.currentItem == null) {
-      alert("You must click Add New or Edit before you can enter project information.");
+      alert("You must click Add New or Edit before you can enter education information.");
       return;
     }
     if (this.userId === 0) {
@@ -84,11 +84,20 @@ export class WizardProjectComponent implements OnInit {
 
     if (this.currentItem.id == undefined || this.currentItem.id == 0) {
       this.currentItem.id = --this.newItemId;
-      this.currentItem.userId = this.userId;
-      this.items.push(this.currentItem);
+      //this.items.push(this.currentItem);
     }
 
     this.retrieveData();
+
+    if (this.currentItem.id < 1) {
+      this._dataService.addProject(this.currentItem).subscribe(
+        item => this.currentItem = item,
+        error => alert('An error occurred while saving: ' + error),
+        () => this.items.push(this.currentItem)
+      );
+    } else {
+      this._dataService.updateProject(this.currentItem);
+    }
 
     this.clearData();
     this.currentItem = null;
@@ -109,15 +118,14 @@ export class WizardProjectComponent implements OnInit {
       alert("You must save the personal information on the first page before saving anything else.");
       return;
     }
+
     let item: Project = this.findItem(name);
+    if (item.id > 0) {
+      this._dataService.deleteProject(item.id);
+    }
+
     let index: number = this.items.indexOf(item);
     this.items.splice(index, 1);
-
-    if (item.id < 1) {
-      return;
-    } else {
-      this.deletedItems.push(item);
-    }
   }
 
   getPaginatorData(event) {
@@ -131,21 +139,6 @@ export class WizardProjectComponent implements OnInit {
       this.highValue = this.highValue - this.pageSize;
     }
     this.pageIndex = event.pageIndex;
-  }
-
-  public saveData() {
-    let item: Project;
-
-    for (let i: number; this.items.length > i; i++) {
-      item = this.items[i];
-      this._dataService.updateProject(item);
-    }
-
-    for (let i: number; this.deletedItems.length > i; i++) {
-      item = this.items[i];
-      this._dataService.deleteProject(item.id);
-    }
-
   }
 
   public loadData() {

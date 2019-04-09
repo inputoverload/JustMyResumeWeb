@@ -50,9 +50,13 @@
   <p>
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
-      <input type="text" matInput placeholder="Email" formControlName="email"/>
+      <input type="text" matInput placeholder="Email" formControlName="email" />
     </mat-form-field>
   </p>
+    <div style="margin-top: 20px; text-align: center;">
+      <button mat-raised-button color="primary" (click)="save()">Save</button>&nbsp;
+      <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
+    </div>
   <div>
     <button mat-raised-button color="primary" matStepperNext>Next</button>
   </div>    

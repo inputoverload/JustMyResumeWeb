@@ -82,6 +82,16 @@ export class WizardEducationItemComponent implements OnInit {
 
     this.retrieveData();
 
+    if (this.currentItem.id < 1) {
+      this._dataService.addEducationItem(this.currentItem).subscribe(
+        item => this.currentItem = item,
+        error => alert('An error occurred while saving: ' + error),
+        () => this.items.push(this.currentItem)
+      );
+    } else {
+      this._dataService.updateEducationItem(this.currentItem);
+    }
+
     this.clearData();
     this.currentItem = null;
   }
@@ -103,14 +113,12 @@ export class WizardEducationItemComponent implements OnInit {
     }
 
     let item: EducationItem = this.findItem(description);
+    if (item.id > 0) {
+      this._dataService.deleteEducationItem(item.id);
+    }
+
     let index: number = this.items.indexOf(item);
     this.items.splice(index, 1);
-
-    if (item.id < 1) {
-      return;
-    } else {
-      this.deletedItems.push(item);
-    }
   }
 
   getPaginatorData(event) {
@@ -124,21 +132,6 @@ export class WizardEducationItemComponent implements OnInit {
       this.highValue = this.highValue - this.pageSize;
     }
     this.pageIndex = event.pageIndex;
-  }
-
-  public saveData() {
-    let item: EducationItem;
-
-    for (let i: number; this.items.length > i; i++) {
-      item = this.items[i];
-      this._dataService.updateEducationItem(item);
-    }
-
-    for (let i: number; this.deletedItems.length > i; i++) {
-      item = this.items[i];
-      this._dataService.deleteEducationItem(item.id);
-    }
-
   }
 
   public loadData() {
