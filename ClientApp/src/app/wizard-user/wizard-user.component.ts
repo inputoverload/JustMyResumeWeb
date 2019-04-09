@@ -3,9 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { OverlayService } from '../uiServices/overlay/overlay.module';
+import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.module';
+
 import { MaterialModule } from '../material';
 import { User } from '../models/user';
 import { UserService } from '../dataServices/user.service';
+import { OverlayRef } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-wizard-user',
@@ -21,7 +25,8 @@ export class WizardUserComponent implements OnInit {
                 private location: Location,
                 private router: Router, 
                 private _formBuilder: FormBuilder,
-                private _dataService: UserService) {
+                private _dataService: UserService,
+                private previewProgressSpinner: OverlayService) {
 
     this.userFormGroup = this._formBuilder.group({
       firstName: [''],
@@ -40,6 +45,15 @@ export class WizardUserComponent implements OnInit {
     this.retrieveUserId();
     this.loadData();
   }
+  private overlayRef: OverlayRef;
+  showBackdrop() {
+    let overlayRef = this.previewProgressSpinner.open({ 'hasBackdrop': true },
+      ProgressSpinnerComponent);
+  }
+
+  hideBackdrop() {
+    this.previewProgressSpinner.close();
+  }
 
   finishInit() {
     this.displayData();
@@ -47,6 +61,8 @@ export class WizardUserComponent implements OnInit {
 
   save() {
     let isNew: boolean = this.user.id < 1;
+
+    this.showBackdrop();
 
     this.retrieveData();
     if (isNew) {
@@ -58,6 +74,9 @@ export class WizardUserComponent implements OnInit {
     } else {
       this._dataService.updateUser(this.user);
     }
+
+    this.hideBackdrop();
+
   }
 
   cancel() {

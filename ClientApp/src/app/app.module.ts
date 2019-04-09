@@ -23,6 +23,8 @@ import { WizardSkillsComponent } from './wizard-skills/wizard-skills.component';
 import { WizardEducationItemComponent } from './wizard-education-item/wizard-education-item.component';
 import { WizardProjectComponent } from './wizard-project/wizard-project.component';
 import { ResumeWizardComponent } from './resume-wizard/resume-wizard.component';
+import { AppOverlayModule } from './uiServices/overlay/overlay.module';
+import { ProgressSpinnerModule, ProgressSpinnerComponent } from './progress-spinner/progress-spinner.module';
 
 
 @NgModule({
@@ -51,9 +53,14 @@ import { ResumeWizardComponent } from './resume-wizard/resume-wizard.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AppOverlayModule,
+    ProgressSpinnerModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AppComponent,
+    ProgressSpinnerComponent
+  ]
 })
 export class AppModule { }
