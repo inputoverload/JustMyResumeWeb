@@ -52,6 +52,7 @@ export class WizardProjectComponent implements OnInit {
     this.currentItem.demoUrl = this.projectsFormGroup.get("demoUrl").value;
     this.currentItem.gitHubUrl = this.projectsFormGroup.get("gitHubUrl").value;
     this.currentItem.description = this.projectsFormGroup.get("description").value;
+    this.currentItem.userId = this.userId;
   }
 
   clearData() {
@@ -74,6 +75,10 @@ export class WizardProjectComponent implements OnInit {
   save() {
     if (this.currentItem == null) {
       alert("You must click Add New or Edit before you can enter project information.");
+      return;
+    }
+    if (this.userId === 0) {
+      alert("You must save the personal information on the first page before saving anything else.");
       return;
     }
 
@@ -100,6 +105,10 @@ export class WizardProjectComponent implements OnInit {
   }
 
   delete(name: string) {
+    if (this.userId === 0) {
+      alert("You must save the personal information on the first page before saving anything else.");
+      return;
+    }
     let item: Project = this.findItem(name);
     let index: number = this.items.indexOf(item);
     this.items.splice(index, 1);

@@ -7,8 +7,7 @@ import { ResumeWizardComponent } from './resume-wizard/resume-wizard.component';
 const routes: Routes = [
   { path: '', redirectTo: 'resume/1', pathMatch: 'full' },
   { path: 'resume/:id', component: ResumeSummaryComponent },
-  { path: 'resume/wizard/:id', component: ResumeWizardComponent },
-  { path: 'resume/wizard', component: ResumeWizardComponent }
+  { path: 'resume/wizard/:id', component: ResumeWizardComponent }
 ];
 
 @NgModule({

@@ -60,6 +60,7 @@ export class WizardJobsComponent implements OnInit {
     this.currentJob.description = this.jobsFormGroup.get("description").value;
     this.currentJob.title = this.jobsFormGroup.get("title").value;
     this.currentJob.role = this.jobsFormGroup.get("role").value;
+    this.currentJob.userId = this.userId;
   }
 
   clearData() {
@@ -86,6 +87,10 @@ export class WizardJobsComponent implements OnInit {
       alert("You must click Add New or Edit before you can enter job information.");
       return;
     }
+    if (this.userId === 0) {
+      alert("You must save the personal information on the first page before saving anything else.");
+      return;
+    }
 
     if (this.currentJob.id == undefined || this.currentJob.id == 0) {
       this.currentJob.id = --this.newJobId;
@@ -109,6 +114,10 @@ export class WizardJobsComponent implements OnInit {
   }
 
   delete(employer: string) {
+    if (this.userId === 0) {
+      alert("You must save the personal information on the first page before saving anything else.");
+      return;
+    }
     let job: Job = this.findJob(employer);
     let index: number = this.jobs.indexOf(job);
     this.jobs.splice(index, 1);

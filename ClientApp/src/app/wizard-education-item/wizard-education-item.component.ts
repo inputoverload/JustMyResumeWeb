@@ -47,6 +47,7 @@ export class WizardEducationItemComponent implements OnInit {
   retrieveData() {
     this.currentItem.description = this.educationItemsFormGroup.get("description").value;
     this.currentItem.degree = this.educationItemsFormGroup.get("degree").value;
+    this.currentItem.userId = this.userId;
   }
 
   clearData() {
@@ -67,6 +68,10 @@ export class WizardEducationItemComponent implements OnInit {
   save() {
     if (this.currentItem == null) {
       alert("You must click Add New or Edit before you can enter education information.");
+      return;
+    }
+    if (this.userId === 0) {
+      alert("You must save the personal information on the first page before saving anything else.");
       return;
     }
 
@@ -92,6 +97,11 @@ export class WizardEducationItemComponent implements OnInit {
   }
 
   delete(description: string) {
+    if (this.userId === 0) {
+      alert("You must save the personal information on the first page before saving anything else.");
+      return;
+    }
+
     let item: EducationItem = this.findItem(description);
     let index: number = this.items.indexOf(item);
     this.items.splice(index, 1);
