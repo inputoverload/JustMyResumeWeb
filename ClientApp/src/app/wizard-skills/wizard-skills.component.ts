@@ -128,24 +128,53 @@ export class WizardSkillsComponent implements OnInit {
     this.loadData();
   }
 
-  save() {
-    let skills: TechSkill[] = [];
-    let id: number;
 
-    skills = skills.concat(this._entrySkills, this._proficientSkills, this._expertSkills);
-    for (let item of skills) {
-      if (item.id < 1) {
-        this._skillService.addTechSkill(item);
-      } else {
-        this._skillService.updateTechSkill(item);
-      }
+
+  saveItemRecursive(items: TechSkill[], index: number) {
+    if (index >= items.length) return;
+
+    let item: TechSkill = items[index];
+    if (item.id < 1) {
+      this._skillService.addTechSkill(item).subscribe(
+        item => items[index] = item,
+        error => console.warn("An error occurred inserting TechSkill: ", error.message),
+        () => this.saveItemRecursive(items, index + 1)
+      );
+    } else {
+      this._skillService.updateTechSkill(item);
     }
+  }
+
+  save() {
+    this.saveItemRecursive(this._entrySkills, 0);
+    this.saveItemRecursive(this._proficientSkills, 0);
+    this.saveItemRecursive(this._expertSkills, 0);
 
     for (let item of this._deletedItems) {
+      alert('deleting ' + item.name);
       this._skillService.deleteTechSkill(item.id);
     }
+  }
 
-    this.loadData();
+  /*
+   * With adds and deletes we update the database immediately. There are no updates. Since
+   * TechSkill only has one user-entered property they can just delete and re-enter instead
+   * of updating.
+   */ 
+  saveItem(items: TechSkill[], item: TechSkill) {
+    if (this.userId < 1) {
+      alert('You must save the personal information on the first step before saving anything else.');
+      return;
+    }
+
+    this._skillService.addTechSkill(item).subscribe(
+      item => {
+        items.push(item);
+        console.warn("Successfully saved item " + item.id;
+      },
+      error => console.warn("An error occurred inserting TechSkill: ", error.message),
+      () => { return; }
+    );
   }
   
   add(event: MatChipInputEvent, skillLevel: string): void {
@@ -169,14 +198,16 @@ export class WizardSkillsComponent implements OnInit {
 
     // Add our skill
     if ((value || '').trim()) {
-      selectedSkills.push({
+      let item: TechSkill = {
         id: 0,
         userId: this.userId,
         skillCategoryId: this.skillCategoryId,
         name: value.trim(),
         skillLevel: skillLevel,
         sortOrder: 0
-      });
+      };
+
+      this.saveItem(selectedSkills, item);
     }
 
     // Reset the input value

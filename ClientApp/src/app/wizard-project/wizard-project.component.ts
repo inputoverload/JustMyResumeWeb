@@ -78,7 +78,7 @@ export class WizardProjectComponent implements OnInit {
       return;
     }
     if (this.userId === 0) {
-      alert("You must save the personal information on the first page before saving anything else.");
+      alert("You must save the personal information on the first step before saving anything else.");
       return;
     }
 
