@@ -6,7 +6,7 @@
         {{item.name}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
-      <input placeholder="Enter a New {{this.singularName}}..."
+      <input placeholder="Enter a New {{this.singularName}} and press Enter..."
              class="skill-chip-list"
              [matChipInputFor]="entrySkills"
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
@@ -22,7 +22,7 @@
         {{item.name}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
-      <input placeholder="Enter a New {{this.singularName}}..."
+      <input placeholder="Enter a New {{this.singularName}} and press Enter..."
              class="skill-chip-list"
              [matChipInputFor]="proficientSkills"
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
@@ -38,7 +38,7 @@
         {{item.name}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
-      <input placeholder="Enter a New {{this.singularName}}..."
+      <input placeholder="Enter a New {{this.singularName}} and press Enter..."
              class="skill-chip-list"
              [matChipInputFor]="expertSkills"
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
@@ -46,10 +46,6 @@
              (matChipInputTokenEnd)="add($event, 'Expert')">
     </mat-chip-list>
   </mat-form-field>
-  <div class="skill-chip-button-panel">
-    <button mat-raised-button color="primary" (click)="save()">Save</button>&nbsp;
-    <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
-  </div>
 </form>
 <div>
   <button mat-raised-button color="primary" matStepperPrevious>Back</button>&nbsp;

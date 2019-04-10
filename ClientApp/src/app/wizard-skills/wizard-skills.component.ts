@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent, MatChipList} from '@angular/material';
+import { MatChipInputEvent, MatChipList } from '@angular/material';
+import { ENTER } from '@angular/cdk/keycodes';
 
 import { TechSkill } from '../models/tech-skill';
 import { TechSkillService } from '../dataServices/tech-skill.service';
@@ -33,7 +33,7 @@ export class WizardSkillsComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  separatorKeysCodes = [ENTER];
 
   get entryLevelSkills() {
     return this._entrySkills;
@@ -73,7 +73,6 @@ export class WizardSkillsComponent implements OnInit {
   private _proficientSkills: TechSkill[] = null;
   private _expertSkills: TechSkill[] = null;
   private _allSkills: TechSkill[] = null;
-  private _deletedItems: TechSkill[] = [];
   private skillCategoryId: number = 0;
 
   skillCategories: SkillCategory[];
@@ -124,38 +123,6 @@ export class WizardSkillsComponent implements OnInit {
     );
   }
 
-  cancel() {
-    this.loadData();
-  }
-
-
-
-  saveItemRecursive(items: TechSkill[], index: number) {
-    if (index >= items.length) return;
-
-    let item: TechSkill = items[index];
-    if (item.id < 1) {
-      this._skillService.addTechSkill(item).subscribe(
-        item => items[index] = item,
-        error => console.warn("An error occurred inserting TechSkill: ", error.message),
-        () => this.saveItemRecursive(items, index + 1)
-      );
-    } else {
-      this._skillService.updateTechSkill(item);
-    }
-  }
-
-  save() {
-    this.saveItemRecursive(this._entrySkills, 0);
-    this.saveItemRecursive(this._proficientSkills, 0);
-    this.saveItemRecursive(this._expertSkills, 0);
-
-    for (let item of this._deletedItems) {
-      alert('deleting ' + item.name);
-      this._skillService.deleteTechSkill(item.id);
-    }
-  }
-
   /*
    * With adds and deletes we update the database immediately. There are no updates. Since
    * TechSkill only has one user-entered property they can just delete and re-enter instead
@@ -168,16 +135,18 @@ export class WizardSkillsComponent implements OnInit {
     }
 
     this._skillService.addTechSkill(item).subscribe(
-      item => {
-        items.push(item);
-        console.warn("Successfully saved item " + item.id;
-      },
-      error => console.warn("An error occurred inserting TechSkill: ", error.message),
+      item => items.push(item),
+      error => alert("An error occurred inserting TechSkill: " + error.message),
       () => { return; }
     );
   }
   
   add(event: MatChipInputEvent, skillLevel: string): void {
+    if (this.userId < 1) {
+      alert('You must save the personal information on the first step before saving anything else.');
+      return;
+    }
+
     const input = event.input;
     const value = event.value;
 
@@ -219,8 +188,6 @@ export class WizardSkillsComponent implements OnInit {
   remove(skill: TechSkill, skillLevel: string): void {    
     var selectedSkills: TechSkill[];
 
-    alert('here');
-
     switch(skillLevel)
     {
       case 'Entry':
@@ -237,10 +204,9 @@ export class WizardSkillsComponent implements OnInit {
     const index = selectedSkills.indexOf(skill);
 
     if (index >= 0) {
+      let deleted: TechSkill = selectedSkills[index];
+      this._skillService.deleteTechSkill(deleted.id);
       selectedSkills.splice(index, 1);
-      if (skill.id > 0) {
-        this._deletedItems.push(skill);
-      }
     }
   }
 }
