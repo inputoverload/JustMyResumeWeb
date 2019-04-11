@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MaterialModule } from '../material'; 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
@@ -18,20 +18,18 @@ import { UserEditorComponent } from '../user-editor/user-editor.component';
   styleUrls: ['./resume-summary.component.css']
 })
 export class ResumeSummaryComponent implements OnInit {
+  userId: number;
 
   constructor(private activeRoute: ActivatedRoute, 
               private location: Location,
-              public dialog: MatDialog) { }
+              private router: Router) { }
 
   ngOnInit() {
+    this.userId = +this.activeRoute.snapshot.paramMap.get('id');
   }
 
   editUser(): void {
-    let id: number;
-    id = +this.activeRoute.snapshot.paramMap.get('id');
-    
-    const dialogRef = this.dialog.open(UserEditorComponent, {height: '400px', width: '600px', data: {userId: id}});
-    dialogRef.afterClosed().subscribe(retval => location.reload());
+    this.router.navigateByUrl(`/resume/wizard/${this.userId}`);
   }
 
 }
