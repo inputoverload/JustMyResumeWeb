@@ -116,7 +116,7 @@ export class WizardSkillsComponent implements OnInit {
   loadData() {
     this._categoryService.getSkillCategories().subscribe(values => this.skillCategories = values,
       error => console.log('error:' + error),
-      () => this._skillService.getTechSkills(this.userId).subscribe(values => this._allSkills = values,
+      () => this._skillService.getUserTechSkills(this.userId).subscribe(values => this._allSkills = values,
         error => console.log("Error: ", error),
         () => this.initializeSkills()
       )

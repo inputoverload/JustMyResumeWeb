@@ -16,7 +16,7 @@ export class ProjectComponent implements OnInit {
 
   getProjects(id: number)
   {
-    this.projectService.getProjects(id).subscribe(projects => this.projects = projects);
+    this.projectService.getUserProjects(id).subscribe(projects => this.projects = projects);
   }
 
   constructor(private activeRoute: ActivatedRoute, private projectService: ProjectService, private location: Location) { }

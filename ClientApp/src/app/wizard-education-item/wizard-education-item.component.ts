@@ -25,7 +25,6 @@ export class WizardEducationItemComponent implements OnInit {
   highValue: number = 5;
 
   items: EducationItem[] = [];
-  deletedItems: EducationItem[] = [];
   columnsToDiplay = ['description', 'actions'];
 
   constructor(private _formBuilder: FormBuilder, private _dataService: EducationService) {
@@ -37,6 +36,7 @@ export class WizardEducationItemComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    this.addNew();
   }
 
   displayData() {
@@ -58,42 +58,43 @@ export class WizardEducationItemComponent implements OnInit {
   addNew() {
     this.clearData();
     this.currentItem = new EducationItem();
+    this.currentItem.userId = this.userId;
+    this.currentItem.description = "";
   }
 
   cancel() {
-    this.currentItem = null;
-    this.clearData();
+    this.addNew();
+  }
+
+  public loadData() {
+    if (this.userId === 0) {
+      this.items = [];
+    } else {
+      this._dataService.getUserEducationItems(this.userId).subscribe(items => this.items = items);
+    }
   }
 
   save() {
-    if (this.currentItem == null) {
-      alert("You must click Add New or Edit before you can enter education information.");
-      return;
-    }
     if (this.userId === 0) {
       alert("You must save the personal information on the first page before saving anything else.");
       return;
     }
 
-    if (this.currentItem.id == undefined || this.currentItem.id == 0) {
-      this.currentItem.id = --this.newItemId;
-      this.items.push(this.currentItem);
-    }
-
     this.retrieveData();
 
-    if (this.currentItem.id < 1) {
+    if (!this.currentItem.id) {
       this._dataService.addEducationItem(this.currentItem).subscribe(
-        item => this.currentItem = item,
-        error => alert('An error occurred while saving: ' + error),
-        () => this.items.push(this.currentItem)
+        item => { return; },
+        error => alert('An error occurred while saving: ' + error.message),
+        () => {
+          this.items.push(this.currentItem);
+          this.addNew();
+        }
       );
     } else {
       this._dataService.updateEducationItem(this.currentItem);
+      this.addNew();
     }
-
-    this.clearData();
-    this.currentItem = null;
   }
 
   edit(description: string) {
@@ -102,23 +103,17 @@ export class WizardEducationItemComponent implements OnInit {
   }
 
   findItem(description: string): EducationItem {
-
-    return this.items.find<EducationItem>(item => item.description == description);
+    return this.items.find(item => item.description == description);
   }
 
   delete(description: string) {
-    if (this.userId === 0) {
-      alert("You must save the personal information on the first page before saving anything else.");
-      return;
-    }
-
     let item: EducationItem = this.findItem(description);
-    if (item.id > 0) {
-      this._dataService.deleteEducationItem(item.id);
-    }
+    this._dataService.deleteEducationItem(item.id);
 
     let index: number = this.items.indexOf(item);
     this.items.splice(index, 1);
+
+    this.addNew();
   }
 
   getPaginatorData(event) {
@@ -132,15 +127,6 @@ export class WizardEducationItemComponent implements OnInit {
       this.highValue = this.highValue - this.pageSize;
     }
     this.pageIndex = event.pageIndex;
-  }
-
-  public loadData() {
-    this.deletedItems = [];
-    if (this.userId === 0) {
-      this.items = [];
-    } else {
-      this._dataService.getEducationItems(this.userId).subscribe(items => this.items = items);
-    }
   }
 
 }

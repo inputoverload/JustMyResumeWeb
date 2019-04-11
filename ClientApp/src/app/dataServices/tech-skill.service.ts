@@ -27,7 +27,7 @@ export class TechSkillService {
     return retval;
   }
 
-  getTechSkills(id: number): Observable<TechSkill[]> {
+  getUserTechSkills(id: number): Observable<TechSkill[]> {
     const retval = this.http.get<TechSkill[]>(`${this.url}/users/${id}`);
     return retval;
   }

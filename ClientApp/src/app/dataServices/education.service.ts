@@ -27,7 +27,7 @@ export class EducationService {
     return retval;
   }
 
-  getEducationItems(id: number): Observable<EducationItem[]> {
+  getUserEducationItems(id: number): Observable<EducationItem[]> {
     const retval = this.http.get<EducationItem[]>(`${this.url}/users/${id}`);
     return retval;
   }

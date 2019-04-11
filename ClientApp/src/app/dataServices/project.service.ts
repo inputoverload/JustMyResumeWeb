@@ -27,7 +27,7 @@ export class ProjectService {
     return retval;
   }
 
-  getProjects(id: number): Observable<Project[]> {
+  getUserProjects(id: number): Observable<Project[]> {
     const retval = this.http.get<Project[]>(`${this.url}/users/${id}`);
     return retval;
   }

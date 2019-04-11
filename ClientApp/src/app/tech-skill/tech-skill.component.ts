@@ -20,7 +20,7 @@ export class TechSkillComponent implements OnInit {
 
   getTechSkills(id: number)
   {
-    this.techSkillService.getTechSkills(id).subscribe(skills => this.techSkills = skills);
+    this.techSkillService.getUserTechSkills(id).subscribe(skills => this.techSkills = skills);
   }
 
   getSkillCategories()

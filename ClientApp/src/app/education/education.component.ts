@@ -15,7 +15,7 @@ export class EducationComponent implements OnInit {
 
   getEducationItems(id: number)
   {
-    this.educationService.getEducationItems(id).subscribe(history => this.educationItems = history);
+    this.educationService.getUserEducationItems(id).subscribe(history => this.educationItems = history);
   }
   constructor(private activeRoute: ActivatedRoute, 
               private educationService: EducationService,

@@ -16,7 +16,7 @@ export class JobComponent implements OnInit {
 
   getJobs(id: number)
   {
-    this.jobService.getJobs(id).subscribe(jobs => this.jobs = jobs);
+    this.jobService.getUserJobs(id).subscribe(jobs => this.jobs = jobs);
   }
 
   constructor(private activeRoute: ActivatedRoute, private jobService: JobService, private location: Location) { }

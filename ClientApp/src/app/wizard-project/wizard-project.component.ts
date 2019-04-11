@@ -24,7 +24,6 @@ export class WizardProjectComponent implements OnInit {
   highValue: number = 5;
 
   items: Project[] = [];
-  deletedItems: Project[] = [];
   columnsToDiplay = ['name', 'actions'];
 
   constructor(private _formBuilder: FormBuilder, private _dataService: ProjectService) {
@@ -38,6 +37,7 @@ export class WizardProjectComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    this.addNew();
   }
 
   displayData() {
@@ -65,41 +65,43 @@ export class WizardProjectComponent implements OnInit {
   addNew() {
     this.clearData();
     this.currentItem = new Project();
+    this.currentItem.userId = this.userId;
+    this.currentItem.name = "";
   }
 
   cancel() {
-    this.currentItem = null;
-    this.clearData();
+    this.addNew();
+  }
+
+  public loadData() {
+    if (this.userId === 0) {
+      this.items = [];
+    } else {
+      this._dataService.getUserProjects(this.userId).subscribe(items => this.items = items);
+    }
   }
 
   save() {
-    if (this.currentItem == null) {
-      alert("You must click Add New or Edit before you can enter education information.");
-      return;
-    }
     if (this.userId === 0) {
       alert("You must save the personal information on the first step before saving anything else.");
       return;
     }
 
-    if (this.currentItem.id == undefined || this.currentItem.id == 0) {
-      this.currentItem.id = --this.newItemId;
-    }
-
     this.retrieveData();
 
-    if (this.currentItem.id < 1) {
+    if (!this.currentItem.id) {
       this._dataService.addProject(this.currentItem).subscribe(
-        item => this.currentItem = item,
-        error => alert('An error occurred while saving: ' + error),
-        () => this.items.push(this.currentItem)
+        item => { return; },
+        error => alert('An error occurred while saving: ' + error.message),
+        () => {
+          this.items.push(this.currentItem);
+          this.addNew();
+        }
       );
     } else {
       this._dataService.updateProject(this.currentItem);
+      this.addNew();
     }
-
-    this.clearData();
-    this.currentItem = null;
   }
 
   edit(name: string) {
@@ -108,23 +110,17 @@ export class WizardProjectComponent implements OnInit {
   }
 
   findItem(name: string): Project {
-
-    return this.items.find<Project>(item => item.name == name);
+    return this.items.find(item => item.name == name);
   }
 
   delete(name: string) {
-    if (this.userId === 0) {
-      alert("You must save the personal information on the first page before saving anything else.");
-      return;
-    }
-
     let item: Project = this.findItem(name);
-    if (item.id > 0) {
-      this._dataService.deleteProject(item.id);
-    }
+    this._dataService.deleteProject(item.id);
 
     let index: number = this.items.indexOf(item);
     this.items.splice(index, 1);
+
+    this.addNew();
   }
 
   getPaginatorData(event) {
@@ -138,15 +134,6 @@ export class WizardProjectComponent implements OnInit {
       this.highValue = this.highValue - this.pageSize;
     }
     this.pageIndex = event.pageIndex;
-  }
-
-  public loadData() {
-    this.deletedItems = [];
-    if (this.userId === 0) {
-      this.items = [];
-    } else {
-      this._dataService.getProjects(this.userId).subscribe(items => this.items = items);
-    }
   }
 
 }
