@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { MaterialModule } from '../material';
 import { Project } from '../models/project';
@@ -26,7 +27,10 @@ export class WizardProjectComponent implements OnInit {
   items: Project[] = [];
   columnsToDiplay = ['name', 'actions'];
 
-  constructor(private _formBuilder: FormBuilder, private _dataService: ProjectService) {
+  constructor(private _formBuilder: FormBuilder,
+    private _dataService: ProjectService,
+    private router: Router
+  ) {
     this.projectsFormGroup = this._formBuilder.group({
       name: [''],
       demoUrl: [''],
@@ -121,6 +125,10 @@ export class WizardProjectComponent implements OnInit {
     this.items.splice(index, 1);
 
     this.addNew();
+  }
+
+  finish() {
+    this.router.navigateByUrl(`/resume/${this.userId}`);
   }
 
   getPaginatorData(event) {
