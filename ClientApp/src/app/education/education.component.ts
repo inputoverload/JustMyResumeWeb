@@ -19,12 +19,13 @@ export class EducationComponent implements OnInit {
   }
   constructor(private activeRoute: ActivatedRoute, 
               private educationService: EducationService,
-              private location: Location) { }
-
-  ngOnInit() {
+    private location: Location) {
     let id: number;
     id = +this.activeRoute.snapshot.paramMap.get('id');
     this.getEducationItems(id);
+  }
+
+  ngOnInit() {
   }
 
 }

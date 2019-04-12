@@ -1,9 +1,12 @@
-<mat-tab-group class="top-tab-group">
+<div *ngIf="projects ? projects.length > 0 : false">
+  <h2>Portfolio</h2>
+  <mat-tab-group class="top-tab-group">
     <mat-tab *ngFor="let project of projects" label="{{project.name}}">
-          <div style="padding-top: 10px;">
-            <p>Live Demo:  {{project.demoUrl}}</p>
-            <p>Source Code: {{project.gitHubUrl}}</p>
-          <p [innerHtml]="project.description"></p>
-        </div>
-  </mat-tab>
+      <div style="padding-top: 10px;">
+        <p>Live Demo:  {{project.demoUrl}}</p>
+        <p>Source Code: {{project.gitHubUrl}}</p>
+        <p [innerHtml]="project.description"></p>
+      </div>
+    </mat-tab>
   </mat-tab-group>
+</div>

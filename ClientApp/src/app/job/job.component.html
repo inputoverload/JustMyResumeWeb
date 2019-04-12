@@ -1,10 +1,13 @@
-<mat-tab-group>
-  <mat-tab *ngFor="let job of jobs" label="{{job.role}}">
-        <div style="padding-top: 10px;">
+<div *ngIf="jobs ? jobs.length > 0 : false">
+  <h2>Work History</h2>
+  <mat-tab-group>
+    <mat-tab *ngFor="let job of jobs" label="{{job.role}}">
+      <div style="padding-top: 10px;">
         {{job.startDate}} - {{job.endDate}}<br />
         Company: {{job.employer}}<br />
         Title: {{job.title}}
         <p [innerHtml]="job.description"></p>
       </div>
-</mat-tab>
-</mat-tab-group>
+    </mat-tab>
+  </mat-tab-group>
+</div>

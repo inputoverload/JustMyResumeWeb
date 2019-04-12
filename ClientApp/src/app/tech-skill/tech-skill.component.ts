@@ -14,7 +14,7 @@ import { SkillCategoryService } from '../dataServices/skill-category.service';
   styleUrls: ['./tech-skill.component.css']
 })
 export class TechSkillComponent implements OnInit {
-  techSkills: TechSkill[];
+  public techSkills: TechSkill[];
   skillCategories: SkillCategory[];
   columnsToDisplay = ['name','skillLevel'];
 
@@ -38,14 +38,15 @@ export class TechSkillComponent implements OnInit {
   constructor(private activeRoute: ActivatedRoute, 
               private techSkillService: TechSkillService,
               private skillCategoryService: SkillCategoryService,
-              private location: Location) { }
-
-  ngOnInit() {
+    private location: Location) {
     let id: number;
     id = +this.activeRoute.snapshot.paramMap.get('id');
     this.getTechSkills(id);
 
     this.getSkillCategories();
+  }
+
+  ngOnInit() {
   }
 
 }

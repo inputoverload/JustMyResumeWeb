@@ -1,7 +1,10 @@
-<mat-tab-group>
+<div *ngIf="educationItems ? educationItems.length > 0 : false">
+  <h2>Education</h2>
+  <mat-tab-group>
     <mat-tab *ngFor="let educationItem of educationItems" label="{{educationItem.description}}">
-          <div style="padding-top: 10px;">
-          <p [innerHtml]="educationItem.degree"></p>
-        </div>
-  </mat-tab>
+      <div style="padding-top: 10px;">
+        <p [innerHtml]="educationItem.degree"></p>
+      </div>
+    </mat-tab>
   </mat-tab-group>
+</div>
