@@ -1,10 +1,11 @@
 <mat-toolbar color="primary">
-        <mat-toolbar-row>
-            <span>Resume Creator</span>
-            <span class="toolbar-spacer"></span>
-            <mat-icon (click)="editUser()" class="toolbar-icon">create</mat-icon>
-        </mat-toolbar-row>
-    </mat-toolbar>
+    <mat-toolbar-row>
+        <span>Resume Creator</span>
+        <span class="toolbar-spacer"></span>
+        <mat-icon (click)="editUser()" class="toolbar-icon">create</mat-icon>&nbsp;
+        <mat-icon (click)="addNew()" class="toolbar-icon">add</mat-icon>
+    </mat-toolbar-row>
+</mat-toolbar>
 <app-user></app-user>
 <h2>Technical Skills</h2>
     <app-tech-skill></app-tech-skill>

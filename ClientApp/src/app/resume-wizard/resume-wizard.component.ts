@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { MaterialModule } from '../material';
@@ -57,6 +56,7 @@ export class ResumeWizardComponent implements OnInit {
 
   constructor(private activeRoute: ActivatedRoute,
     private location: Location,
+    private _router: Router, 
     private _formBuilder: FormBuilder,
     private _skillCategoryService: SkillCategoryService) {
 
@@ -69,6 +69,10 @@ export class ResumeWizardComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  preview() {
+    this._router.navigateByUrl(`/resume/${this.userId}`);
   }
 
 }
