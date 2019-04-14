@@ -25,11 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\guards\auth-guard.service.ts" />
     <None Remove="ClientApp\src\app\progress-spinner\progress-spinner.module.ts" />
     <None Remove="ClientApp\src\app\uiServices\overlay\overlay.module.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\guards\auth-guard.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\progress-spinner\progress-spinner.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\uiServices\overlay\overlay.module.ts" />
   </ItemGroup>

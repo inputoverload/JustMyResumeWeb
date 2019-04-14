@@ -13,18 +13,19 @@ import { JobService } from '../dataServices/job.service';
 export class JobComponent implements OnInit {
 
   jobs: Job[];
+  userId: number;
 
-  getJobs(id: number)
+  async getJobs()
   {
-    this.jobService.getUserJobs(id).subscribe(jobs => this.jobs = jobs);
+    this.jobs = await this.jobService.getUserJobs(this.userId);
   }
 
-  constructor(private activeRoute: ActivatedRoute, private jobService: JobService, private location: Location) { }
+  constructor(private activeRoute: ActivatedRoute, private jobService: JobService, private location: Location) {
+    this.userId = +this.activeRoute.snapshot.paramMap.get('id');
+  }
 
-  ngOnInit() {
-    let id: number;
-    id = +this.activeRoute.snapshot.paramMap.get('id');
-    this.getJobs(id);
+  async ngOnInit() {
+    await this.getJobs();
   }
 
 }

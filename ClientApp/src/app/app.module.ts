@@ -25,6 +25,10 @@ import { WizardProjectComponent } from './wizard-project/wizard-project.componen
 import { ResumeWizardComponent } from './resume-wizard/resume-wizard.component';
 import { AppOverlayModule } from './uiServices/overlay/overlay.module';
 import { ProgressSpinnerModule, ProgressSpinnerComponent } from './progress-spinner/progress-spinner.module';
+import { LoginComponent } from './login/login.component';
+import { HttpModule } from '@angular/http';
+import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
+import { AuthGuard } from './guards/auth-guard.service';
 
 
 @NgModule({
@@ -44,7 +48,8 @@ import { ProgressSpinnerModule, ProgressSpinnerComponent } from './progress-spin
     WizardSkillsComponent,
     WizardEducationItemComponent,
     WizardProjectComponent,
-    ResumeWizardComponent
+    ResumeWizardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,9 +60,18 @@ import { ProgressSpinnerModule, ProgressSpinnerComponent } from './progress-spin
     MaterialModule,
     AppRoutingModule,
     AppOverlayModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule, 
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: function tokenGetter() {
+          return localStorage.getItem('jwt');
+        }
+      }
+    })
   ],
-  providers: [],
+  providers: [
+    AuthGuard
+  ],
   bootstrap: [AppComponent],
   entryComponents: [AppComponent,
     ProgressSpinnerComponent

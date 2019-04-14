@@ -5,10 +5,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EducationItem } from '../models/education';
 import { DataConfigModule } from './data-config';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -17,36 +13,32 @@ export class EducationService {
 
   constructor(private http: HttpClient) { }
 
-  getEducationItem(id: number): Observable<EducationItem> {
-    let retval = this.http.get<EducationItem>(`${this.url}/${id}`);
+  async getEducationItem(id: number): Promise<EducationItem> {
+    return await this.http.get<EducationItem>(`${this.url}/${id}`, DataConfigModule.httpOptions).toPromise();
+  }
+
+  async getEducationItems(): Promise<EducationItem[]> {
+    let retval = this.http.get<EducationItem[]>(`${this.url}`, DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  getEducationItems(): Observable<EducationItem[]> {
-    let retval = this.http.get<EducationItem[]>(`${this.url}`);
-    return retval;
+  async getUserEducationItems(id: number): Promise<EducationItem[]> {
+    return await this.http.get<EducationItem[]>(`${this.url}/users/${id}`, DataConfigModule.httpOptions).toPromise();
   }
 
-  getUserEducationItems(id: number): Observable<EducationItem[]> {
-    const retval = this.http.get<EducationItem[]>(`${this.url}/users/${id}`);
-    return retval;
-  }
-
-  addEducationItem(user: EducationItem): Observable<EducationItem> {
+  async addEducationItem(user: EducationItem): Promise<EducationItem> {
     let retval = this.http.post<EducationItem>(
       `${this.url}`,
       JSON.stringify(user),
-      httpOptions);
+      DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  updateEducationItem(user: EducationItem): void {
-    this.http.put<EducationItem>(`${this.url}/${user.id}`, JSON.stringify(user), httpOptions)
-      .subscribe(resp => { return; });
+  async updateEducationItem(user: EducationItem): Promise<void> {
+    this.http.put<EducationItem>(`${this.url}/${user.id}`, JSON.stringify(user), DataConfigModule.httpOptions).toPromise();
   }
 
-  deleteEducationItem(id: number): void {
-    this.http.delete(`${this.url}/${id}`, httpOptions)
-      .subscribe(resp => { return; });
+  async deleteEducationItem(id: number): Promise<void> {
+    this.http.delete(`${this.url}/${id}`, DataConfigModule.httpOptions).toPromise();
   }
 }

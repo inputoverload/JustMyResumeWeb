@@ -1,0 +1,19 @@
+<h2>Login Form</h2>
+<form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+  <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>User Name</mat-label>
+      <input id="username" name="username" ngModel type="text" matInput placeholder="Username" required autofocus />
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input id="password" name="password" ngModel type="password" matInput placeholder="Password" required />
+    </mat-form-field>
+  </p>
+  <div style="margin-top: 20px; text-align: center;">
+    <button mat-raised-button type="submit" color="primary">Log In</button>
+  </div>
+</form>

@@ -3,7 +3,8 @@
         <span>Resume Creator</span>
         <span class="toolbar-spacer"></span>
         <mat-icon *ngIf="this.userId > 1" (click)="editUser()" class="toolbar-icon">create</mat-icon>&nbsp;
-        <mat-icon (click)="addNew()" class="toolbar-icon">add</mat-icon>
+        <mat-icon (click)="addNew()" class="toolbar-icon">add</mat-icon>&nbsp;
+        <mat-icon *ngIf="isLoggedIn()" (click)="logout()" class="toolbar-icon">exit_to_app</mat-icon>
     </mat-toolbar-row>
 </mat-toolbar>
 <app-user></app-user>

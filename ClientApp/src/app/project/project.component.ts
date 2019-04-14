@@ -11,19 +11,23 @@ import { ProjectService } from '../dataServices/project.service';
   styleUrls: ['./project.component.css']
 })
 export class ProjectComponent implements OnInit {
-
+  userId: number;
   projects: Project[];
 
-  getProjects(id: number)
+  async getProjects()
   {
-    this.projectService.getUserProjects(id).subscribe(projects => this.projects = projects);
+    try {
+      this.projects = await this.projectService.getUserProjects(this.userId);
+    } catch (error) {
+      console.warn("error in projects: " + error.message);
+    }
   }
 
-  constructor(private activeRoute: ActivatedRoute, private projectService: ProjectService, private location: Location) { }
+  constructor(private activeRoute: ActivatedRoute, private projectService: ProjectService, private location: Location) {
+    this.userId = +this.activeRoute.snapshot.paramMap.get('id');
+  }
 
-  ngOnInit() {
-    let id: number;
-    id = +this.activeRoute.snapshot.paramMap.get('id');
-    this.getProjects(id);
+  async ngOnInit() {
+    await this.getProjects();
   }
 }

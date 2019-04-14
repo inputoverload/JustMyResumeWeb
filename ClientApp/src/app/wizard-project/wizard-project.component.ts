@@ -39,8 +39,8 @@ export class WizardProjectComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.loadData();
+  async ngOnInit() {
+    await this.loadData();
     this.addNew();
   }
 
@@ -77,15 +77,15 @@ export class WizardProjectComponent implements OnInit {
     this.addNew();
   }
 
-  public loadData() {
+  public async loadData() {
     if (this.userId === 0) {
       this.items = [];
     } else {
-      this._dataService.getUserProjects(this.userId).subscribe(items => this.items = items);
+      this.items = await this._dataService.getUserProjects(this.userId);
     }
   }
 
-  save() {
+  async save() {
     if (this.userId === 0) {
       alert("You must save the personal information on the first step before saving anything else.");
       return;
@@ -94,16 +94,14 @@ export class WizardProjectComponent implements OnInit {
     this.retrieveData();
 
     if (!this.currentItem.id) {
-      this._dataService.addProject(this.currentItem).subscribe(
-        item => { return; },
-        error => alert('An error occurred while saving: ' + error.message),
-        () => {
-          this.items.push(this.currentItem);
-          this.addNew();
-        }
-      );
+      try {
+        this.items.push(await this._dataService.addProject(this.currentItem));
+        this.addNew();
+      } catch (error) {
+        alert('An error occurred while saving: ' + error.message);
+      }
     } else {
-      this._dataService.updateProject(this.currentItem);
+      await this._dataService.updateProject(this.currentItem);
       this.addNew();
     }
   }
@@ -117,9 +115,9 @@ export class WizardProjectComponent implements OnInit {
     return this.items.find(item => item.name == name);
   }
 
-  delete(name: string) {
+  async delete(name: string) {
     let item: Project = this.findItem(name);
-    this._dataService.deleteProject(item.id);
+    await this._dataService.deleteProject(item.id);
 
     let index: number = this.items.indexOf(item);
     this.items.splice(index, 1);

@@ -39,8 +39,8 @@ export class WizardJobsComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.loadData();
+  async ngOnInit() {
+    await this.loadData();
     this.addNew();
   }
 
@@ -83,15 +83,15 @@ export class WizardJobsComponent implements OnInit {
     this.addNew();
   }
 
-  public loadData() {
+  public async loadData() {
     if (this.userId === 0) {
       this.jobs = [];
     } else {
-      this._dataService.getUserJobs(this.userId).subscribe(items => this.jobs = items);
+      this.jobs = await this._dataService.getUserJobs(this.userId);
     }
   }
 
-  save() {
+  async save() {
     if (this.userId === 0) {
       alert("You must save the personal information on the first page before saving anything else.");
       return;
@@ -100,16 +100,14 @@ export class WizardJobsComponent implements OnInit {
     this.retrieveData();
 
     if (!this.currentJob.id) {
-      this._dataService.addJob(this.currentJob).subscribe(
-        item => { return; },
-        error => alert('An error occurred while saving: ' + error.message),
-        () => {
-          this.jobs.push(this.currentJob);
-          this.addNew();
-        }
-      );
+      try {
+        this.jobs.push(await this._dataService.addJob(this.currentJob));
+        this.addNew();
+      } catch (error) {
+        alert('An error occurred while saving: ' + error.message);
+      }
     } else {
-      this._dataService.updateJob(this.currentJob);
+      await this._dataService.updateJob(this.currentJob);
       this.addNew();
     }
   }
@@ -123,9 +121,9 @@ export class WizardJobsComponent implements OnInit {
     return this.jobs.find(item => item.employer == employer);
   }
 
-  delete(employer: string) {
+  async delete(employer: string) {
     let item: Job = this.findJob(employer);
-    this._dataService.deleteJob(item.id);
+    await this._dataService.deleteJob(item.id);
 
     let index: number = this.jobs.indexOf(item);
     this.jobs.splice(index, 1);
@@ -145,5 +143,4 @@ export class WizardJobsComponent implements OnInit {
     }
     this.pageIndex = event.pageIndex;
   }
-
 }

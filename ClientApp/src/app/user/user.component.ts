@@ -15,18 +15,21 @@ export class UserComponent implements OnInit {
 
   user: User;
 
-  getUser(id: number): void {
-    this.userService.getUser(id).subscribe(user => this.user = user)
+  async getUser(id: number) {
+    try {
+      this.user = await this.userService.getUser(id);
+    } catch (error) {
+      console.warn(`Error loading User #${id}: ${error.message}`);
+    }
   }
 
   constructor(private activeRoute: ActivatedRoute, private userService: UserService, private location: Location) {
-
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     let id: number;
     id = +this.activeRoute.snapshot.paramMap.get('id');
-    this.getUser(id);
+    await this.getUser(id);
   }
 
 }

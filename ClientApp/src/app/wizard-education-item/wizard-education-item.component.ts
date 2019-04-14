@@ -34,8 +34,8 @@ export class WizardEducationItemComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.loadData();
+  async ngOnInit() {
+    await this.loadData();
     this.addNew();
   }
 
@@ -66,15 +66,15 @@ export class WizardEducationItemComponent implements OnInit {
     this.addNew();
   }
 
-  public loadData() {
+  public async loadData() {
     if (this.userId === 0) {
       this.items = [];
     } else {
-      this._dataService.getUserEducationItems(this.userId).subscribe(items => this.items = items);
+      this.items = await this._dataService.getUserEducationItems(this.userId);
     }
   }
 
-  save() {
+  async save() {
     if (this.userId === 0) {
       alert("You must save the personal information on the first page before saving anything else.");
       return;
@@ -83,16 +83,14 @@ export class WizardEducationItemComponent implements OnInit {
     this.retrieveData();
 
     if (!this.currentItem.id) {
-      this._dataService.addEducationItem(this.currentItem).subscribe(
-        item => { return; },
-        error => alert('An error occurred while saving: ' + error.message),
-        () => {
-          this.items.push(this.currentItem);
-          this.addNew();
-        }
-      );
+      try {
+        this.items.push(await this._dataService.addEducationItem(this.currentItem));
+        this.addNew();
+      } catch (error) {
+        alert('An error occurred while saving: ' + error.message);
+      }
     } else {
-      this._dataService.updateEducationItem(this.currentItem);
+      await this._dataService.updateEducationItem(this.currentItem);
       this.addNew();
     }
   }
@@ -106,9 +104,9 @@ export class WizardEducationItemComponent implements OnInit {
     return this.items.find(item => item.description == description);
   }
 
-  delete(description: string) {
+  async delete(description: string) {
     let item: EducationItem = this.findItem(description);
-    this._dataService.deleteEducationItem(item.id);
+    await this._dataService.deleteEducationItem(item.id);
 
     let index: number = this.items.indexOf(item);
     this.items.splice(index, 1);

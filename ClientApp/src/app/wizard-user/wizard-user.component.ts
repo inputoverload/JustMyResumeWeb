@@ -41,10 +41,11 @@ export class WizardUserComponent implements OnInit {
       email: ['']
     }); }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.retrieveUserId();
-    this.loadData();
+    await this.loadData();
   }
+
   private overlayRef: OverlayRef;
   showBackdrop() {
     let overlayRef = this.previewProgressSpinner.open({ 'hasBackdrop': true },
@@ -59,20 +60,21 @@ export class WizardUserComponent implements OnInit {
     this.displayData();
   }
 
-  save() {
+  async save() {
     let isNew: boolean = this.user.id < 1;
 
     this.showBackdrop();
 
-    this.retrieveData();
-    if (isNew) {
-      this._dataService.addUser(this.user).subscribe(
-        item => this.user = item,
-        error => alert('An error occurred while saving: ' + error.message),
-        () => this.router.navigateByUrl(`/resume/wizard/${this.user.id}`)
-      );
-    } else {
-      this._dataService.updateUser(this.user);
+    try {
+      this.retrieveData();
+      if (isNew) {
+        this.user = await this._dataService.addUser(this.user);
+        this.router.navigateByUrl(`/resume/wizard/${this.user.id}`);
+      } else {
+        await this._dataService.updateUser(this.user);
+      }
+    } catch (error) {
+      console.warn(`Error occurred saving user ${this.userId}: ${error.message}`);
     }
 
     this.hideBackdrop();
@@ -133,15 +135,13 @@ export class WizardUserComponent implements OnInit {
     this.userId = id;
   }
 
-  loadData() {
+  async loadData() {
     if (this.userId < 1) {
       this.user = new User();
       this.user.id = 0;
     } else {
-      this._dataService.getUser(this.userId)
-        .subscribe(item => this.user = item,
-          error => console.log("Error: ", error),
-        () => this.finishInit());
+      this.user = await this._dataService.getUser(this.userId);
+      this.finishInit();
     }
   }
 

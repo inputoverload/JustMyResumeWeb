@@ -10,10 +10,6 @@ export interface DialogData
   userId: number;
 }
 
-const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -22,31 +18,29 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUser(id: number): Observable<User> {
-    let retval = this.http.get<User>(`${this.url}/${id}`);
+  async getUser(id: number): Promise<User> {
+    return await this.http.get<User>(`${this.url}/${id}`, DataConfigModule.httpOptions).toPromise<User>();
+  }
+
+  async getUsers(): Promise<User[]> {
+    let retval = await this.http.get<User[]>(`${this.url}`, DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  getUsers(): Observable<User> {
-    let retval = this.http.get<User>(`${this.url}`);
-    return retval;
-  }
-
-  addUser(user: User): Observable<User> {
-    let retval = this.http.post<User>(
+  async addUser(user: User): Promise<User> {
+    let retval = await this.http.post<User>(
       `${this.url}`, 
       JSON.stringify(user), 
-      httpOptions);
+      DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  updateUser(user: User): void {
-    this.http.put<User>(`${this.url}/${user.id}`, JSON.stringify(user), httpOptions)
-    .subscribe(resp => {return;});
+  async updateUser(user: User): Promise<void> {
+    await this.http.put<User>(`${this.url}/${user.id}`, JSON.stringify(user), DataConfigModule.httpOptions).toPromise();
   }
 
-  deleteUser(id: number): void {
-    this.http.delete(`${this.url}/${id}`, httpOptions)
-      .subscribe(resp => { return; });
+  async deleteUser(id: number): Promise<void> {
+    await this.http.delete(`${this.url}/${id}`, DataConfigModule.httpOptions)
+      .toPromise();
   }
 }

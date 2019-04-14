@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth-guard.service';
 
 import { ResumeSummaryComponent } from './resume-summary/resume-summary.component';
 import { ResumeWizardComponent } from './resume-wizard/resume-wizard.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'resume/1', pathMatch: 'full' },
-  { path: 'resume/:id', component: ResumeSummaryComponent },
-  { path: 'resume/wizard/:id', component: ResumeWizardComponent }
+  { path: 'resume/:id', component: ResumeSummaryComponent, canActivate: [AuthGuard] },
+  { path: 'resume/wizard/:id', component: ResumeWizardComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

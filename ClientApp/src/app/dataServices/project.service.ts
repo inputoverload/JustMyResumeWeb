@@ -5,10 +5,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Project } from '../models/project';
 import { DataConfigModule } from './data-config';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -17,36 +13,34 @@ export class ProjectService {
 
   constructor(private http: HttpClient) { }
 
-  getProject(id: number): Observable<Project> {
-    let retval = this.http.get<Project>(`${this.url}/${id}`);
+  async getProject(id: number): Promise<Project> {
+    let retval = await this.http.get<Project>(`${this.url}/${id}`, DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  getProjects(): Observable<Project[]> {
-    let retval = this.http.get<Project[]>(`${this.url}`);
+  async getProjects(): Promise<Project[]> {
+    let retval = await this.http.get<Project[]>(`${this.url}`, DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  getUserProjects(id: number): Observable<Project[]> {
-    const retval = this.http.get<Project[]>(`${this.url}/users/${id}`);
+  async getUserProjects(id: number): Promise<Project[]> {
+    const retval = await this.http.get<Project[]>(`${this.url}/users/${id}`, DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  addProject(user: Project): Observable<Project> {
-    let retval = this.http.post<Project>(
+  async addProject(user: Project): Promise<Project> {
+    let retval = await this.http.post<Project>(
       `${this.url}`,
       JSON.stringify(user),
-      httpOptions);
+      DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  updateProject(user: Project): void {
-    this.http.put<Project>(`${this.url}/${user.id}`, JSON.stringify(user), httpOptions)
-      .subscribe(resp => { return; });
+  async updateProject(user: Project): Promise<void> {
+    await this.http.put<Project>(`${this.url}/${user.id}`, JSON.stringify(user), DataConfigModule.httpOptions).toPromise();
   }
 
-  deleteProject(id: number): void {
-    this.http.delete(`${this.url}/${id}`, httpOptions)
-      .subscribe(resp => { return; });
+  async deleteProject(id: number): Promise<void> {
+    await this.http.delete(`${this.url}/${id}`, DataConfigModule.httpOptions).toPromise();
   }
 }

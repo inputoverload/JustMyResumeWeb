@@ -75,4 +75,13 @@ export class ResumeWizardComponent implements OnInit {
     this._router.navigateByUrl(`/resume/${this.userId}`);
   }
 
+  logout(): void {
+    localStorage.removeItem("jwt");
+    this._router.navigateByUrl("/login");
+  }
+
+  isLoggedIn(): boolean {
+    return (localStorage.getItem("jwt") ? true : false);
+  }
+
 }

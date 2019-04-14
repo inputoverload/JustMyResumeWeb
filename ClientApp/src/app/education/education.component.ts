@@ -13,19 +13,20 @@ import { EducationService } from '../dataServices/education.service';
 export class EducationComponent implements OnInit {
   educationItems: EducationItem[];
 
-  getEducationItems(id: number)
+  async getEducationItems(id: number)
   {
-    this.educationService.getUserEducationItems(id).subscribe(history => this.educationItems = history);
+    this.educationItems = await this.educationService.getUserEducationItems(id);
   }
   constructor(private activeRoute: ActivatedRoute, 
               private educationService: EducationService,
     private location: Location) {
-    let id: number;
-    id = +this.activeRoute.snapshot.paramMap.get('id');
-    this.getEducationItems(id);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    let id: number;
+    id = +this.activeRoute.snapshot.paramMap.get('id');
+
+    await this.getEducationItems(id);
   }
 
 }

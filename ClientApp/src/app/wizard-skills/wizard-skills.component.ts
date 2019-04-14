@@ -107,20 +107,20 @@ export class WizardSkillsComponent implements OnInit {
       proficientSkills: [''],
       expertSkills: ['']
     });
-    this.loadData();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.loadData();
   }
 
-  loadData() {
-    this._categoryService.getSkillCategories().subscribe(values => this.skillCategories = values,
-      error => console.log('error:' + error),
-      () => this._skillService.getUserTechSkills(this.userId).subscribe(values => this._allSkills = values,
-        error => console.log("Error: ", error),
-        () => this.initializeSkills()
-      )
-    );
+  async loadData() {
+    try {
+      this.skillCategories = await this._categoryService.getSkillCategories();
+      this._allSkills = await this._skillService.getUserTechSkills(this.userId);
+      this.initializeSkills();
+    } catch (error) {
+      console.warn(`An error occurred while fetching Skills and Skill Categories: ${error.message}`);
+    }
   }
 
   /*
@@ -128,20 +128,20 @@ export class WizardSkillsComponent implements OnInit {
    * TechSkill only has one user-entered property they can just delete and re-enter instead
    * of updating.
    */ 
-  saveItem(items: TechSkill[], item: TechSkill) {
+  async saveItem(items: TechSkill[], item: TechSkill) {
     if (this.userId < 1) {
       alert('You must save the personal information on the first step before saving anything else.');
       return;
     }
 
-    this._skillService.addTechSkill(item).subscribe(
-      item => items.push(item),
-      error => alert("An error occurred inserting TechSkill: " + error.message),
-      () => { return; }
-    );
+    try {
+      items.push(await this._skillService.addTechSkill(item));      
+    } catch (error) {
+      console.warn(`An error occurred while inserting TechSkill: ${error.message}`);
+    }
   }
   
-  add(event: MatChipInputEvent, skillLevel: string): void {
+  async add(event: MatChipInputEvent, skillLevel: string): void {
     if (this.userId < 1) {
       alert('You must save the personal information on the first step before saving anything else.');
       return;
@@ -176,7 +176,7 @@ export class WizardSkillsComponent implements OnInit {
         sortOrder: 0
       };
 
-      this.saveItem(selectedSkills, item);
+      await this.saveItem(selectedSkills, item);
     }
 
     // Reset the input value
@@ -185,7 +185,7 @@ export class WizardSkillsComponent implements OnInit {
     }
   }
 
-  remove(skill: TechSkill, skillLevel: string): void {    
+  async remove(skill: TechSkill, skillLevel: string): void {    
     var selectedSkills: TechSkill[];
 
     switch(skillLevel)
@@ -205,7 +205,11 @@ export class WizardSkillsComponent implements OnInit {
 
     if (index >= 0) {
       let deleted: TechSkill = selectedSkills[index];
-      this._skillService.deleteTechSkill(deleted.id);
+      try {
+        await this._skillService.deleteTechSkill(deleted.id);
+      } catch (error) {
+        console.warn(`An error occurred deleting Tech Skill #${deleted.id}.`);
+      }
       selectedSkills.splice(index, 1);
     }
   }

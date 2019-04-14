@@ -2,7 +2,8 @@
   <mat-toolbar-row>
     <span>Resume Creator</span>
     <span class="toolbar-spacer"></span>
-    <mat-icon (click)="preview()" class="toolbar-icon">find_in_page</mat-icon>
+    <mat-icon (click)="preview()" class="toolbar-icon">find_in_page</mat-icon>&nbsp;
+    <mat-icon *ngIf="isLoggedIn()" (click)="logout()" class="toolbar-icon">exit_to_app</mat-icon>
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-vertical-stepper style="width: 100%" [linear]="isLinear" #stepper>

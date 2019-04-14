@@ -14,8 +14,8 @@ export class SkillCategoryService {
   constructor(private http: HttpClient) {
   }
 
-  getSkillCategories(): Observable<SkillCategory[]> {
-    const retval = this.http.get<SkillCategory[]>(this.url);
+  async getSkillCategories(): Promise<SkillCategory[]> {
+    const retval = await this.http.get<SkillCategory[]>(this.url, DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 }

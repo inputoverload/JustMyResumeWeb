@@ -6,10 +6,6 @@ import { Job } from '../models/job';
 import { DataConfigModule } from './data-config';
 import { DialogData } from "./user.service";
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -18,36 +14,34 @@ export class JobService {
 
   constructor(private http: HttpClient) { }
 
-  getJob(id: number): Observable<Job> {
-    let retval = this.http.get<Job>(`${this.url}/${id}`);
+  async getJob(id: number): Promise<Job> {
+    let retval = this.http.get<Job>(`${this.url}/${id}`, DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  getJobs(): Observable<Job[]> {
-    let retval = this.http.get<Job[]>(`${this.url}`);
+  async getJobs(): Promise<Job[]> {
+    let retval = this.http.get<Job[]>(`${this.url}`, DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  getUserJobs(userId: number): Observable<Job[]> {
-    let retval = this.http.get<Job[]>(`${this.url}/Users/${userId}`);
+  async getUserJobs(userId: number): Promise<Job[]> {
+    let retval = this.http.get<Job[]>(`${this.url}/Users/${userId}`, DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  addJob(user: Job): Observable<Job> {
+  async addJob(user: Job): Promise<Job> {
     let retval = this.http.post<Job>(
       `${this.url}`,
       JSON.stringify(user),
-      httpOptions);
+      DataConfigModule.httpOptions).toPromise();
     return retval;
   }
 
-  updateJob(user: Job): void {
-    this.http.put<Job>(`${this.url}/${user.id}`, JSON.stringify(user), httpOptions)
-      .subscribe(resp => { return; });
+  async updateJob(user: Job): Promise<void> {
+    this.http.put<Job>(`${this.url}/${user.id}`, JSON.stringify(user), DataConfigModule.httpOptions).toPromise();
   }
 
-  deleteJob(id: number): void {
-    this.http.delete(`${this.url}/${id}`, httpOptions)
-      .subscribe(resp => { return; });
+  async deleteJob(id: number): Promise<void> {
+    this.http.delete(`${this.url}/${id}`, DataConfigModule.httpOptions).toPromise();
   }
 }
