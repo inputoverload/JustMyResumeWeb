@@ -7,3 +7,7 @@
 .toolbar-spacer {
   flex: 1 1 auto;
 }
+
+th.mat-sort-header-sorted {
+  color: black;
+}

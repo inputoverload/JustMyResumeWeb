@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { User } from '../models/user';
 import { UserService } from '../dataServices/user.service';
 import { LoginService } from '../dataServices/login.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-browser-users',
@@ -22,6 +24,11 @@ export class BrowserUsersComponent implements OnInit {
   lowValue: number = 0;
   highValue: number = 5;
 
+  dataSource: MatTableDataSource<User>;
+
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(
     public dialogRef: MatDialogRef<BrowserUsersComponent>,
     private userService: UserService,
@@ -32,9 +39,12 @@ export class BrowserUsersComponent implements OnInit {
   async ngOnInit() {
     try {
       this.columnsToDisplay = ['lastName', 'firstName', 'city', 'state', 'actions'];
-
+      
       this.users = await this.userService.getUsers();
+      this.dataSource = new MatTableDataSource(this.users);
       this.JWT = this.loginService.JWT;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     } catch (error) {
       console.warn(`An error occurred while loading the resumes: ${error.message}`);
     }
