@@ -23,7 +23,11 @@ export class UserComponent implements OnInit {
     }
   }
 
-  constructor(private activeRoute: ActivatedRoute, private userService: UserService, private location: Location) {
+  constructor(
+    private activeRoute: ActivatedRoute,
+    private userService: UserService,
+    private location: Location
+  ) {
   }
 
   async ngOnInit() {

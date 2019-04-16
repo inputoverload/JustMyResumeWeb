@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
        item => { return; },
        err => console.warn('localStorate.setItem failed: ' + err.message),
        () => {
+         this.loginService.JWT = token.token;
          this.invalidLogin = false;
          this.goHome();
        }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MaterialModule } from '../material'; 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { LoginService } from '../dataServices/login.service';
 
 
 @Component({
@@ -17,9 +18,12 @@ export class ResumeSummaryComponent implements OnInit {
     return localStorage.getItem("jwt");
   }
 
-  constructor(private activeRoute: ActivatedRoute, 
-              private location: Location,
-              private router: Router) { }
+  constructor(
+    private activeRoute: ActivatedRoute, 
+    private location: Location,
+    private router: Router,
+    private loginService: LoginService
+  ) { }
 
   ngOnInit() {
     this.userId = +this.activeRoute.snapshot.paramMap.get('id');
