@@ -34,9 +34,10 @@
       <a [routerLink]="['resume', element.id]" [fragment]="this.JWT" target="_top">
         <mat-icon>find_in_page</mat-icon>
       </a>
-</td>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 </table>
+<mat-paginator #paginator [length]="this.users.length" [pageSize]="5" (page)="pageEvent = getPaginatorData($event)"></mat-paginator>
