@@ -6,8 +6,9 @@ export class DataConfigModule
 
   public static httpOptions = {
     headers: new HttpHeaders({
-      "Authorization": "Bearer " + localStorage.getItem("jwt"),
-      "Content-Type": "application/json"
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + localStorage.getItem("jwt")
     })
   };
 }

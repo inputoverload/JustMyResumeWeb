@@ -13,7 +13,10 @@ import { MaterialModule } from '../material';
 import { Observable} from 'rxjs';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  })
 };
 
 @Component({
@@ -47,7 +50,7 @@ export class LoginComponent implements OnInit {
        err => console.warn('localStorate.setItem failed: ' + err.message),
        () => {
          this.invalidLogin = false;
-         this.goHome(); 
+         this.goHome();
        }
      );
 
