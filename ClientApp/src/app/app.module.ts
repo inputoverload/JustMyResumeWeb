@@ -29,6 +29,7 @@ import { LoginComponent } from './login/login.component';
 import { HttpModule } from '@angular/http';
 import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 import { AuthGuard } from './guards/auth-guard.service';
+import { BrowserUsersComponent } from './browser-users/browser-users.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { AuthGuard } from './guards/auth-guard.service';
     WizardEducationItemComponent,
     WizardProjectComponent,
     ResumeWizardComponent,
-    LoginComponent
+    LoginComponent,
+    BrowserUsersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -5,7 +5,6 @@ import { MaterialModule } from '../material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 
-
 @Component({
   selector: 'app-resume-summary',
   templateUrl: './resume-summary.component.html',
@@ -13,6 +12,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 })
 export class ResumeSummaryComponent implements OnInit {
   userId: number;
+
+  get WebToken {
+    return localStorage.getItem("jwt");
+  }
 
   constructor(private activeRoute: ActivatedRoute, 
               private location: Location,
@@ -33,6 +36,14 @@ export class ResumeSummaryComponent implements OnInit {
 
   isLoggedIn(): boolean {
     return (localStorage.getItem("jwt") ? true : false);
+  }
+
+  displayBrowser(): void {
+    this.router.navigateByUrl("/resumes");
+  }
+
+  addNew(): void {
+    this.router.navigateByUrl("/resume/wizard/0");
   }
 
 }

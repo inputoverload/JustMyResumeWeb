@@ -59,16 +59,15 @@ export class ResumeWizardComponent implements OnInit {
     private _router: Router, 
     private _formBuilder: FormBuilder,
     private _skillCategoryService: SkillCategoryService) {
+  }
 
+  ngOnInit() {
     let id: number;
     id = +this.activeRoute.snapshot.paramMap.get('id');
     if (id == undefined) {
       id = 0;
     }
     this.userId = id;
-  }
-
-  ngOnInit() {
   }
 
   preview() {
