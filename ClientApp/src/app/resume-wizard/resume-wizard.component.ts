@@ -12,6 +12,7 @@ import { WizardEducationItemComponent } from '../wizard-education-item/wizard-ed
 import { WizardProjectComponent } from '../wizard-project/wizard-project.component';
 import { SkillCategory } from '../models/skill-category';
 import { SkillCategoryService } from '../dataServices/skill-category.service';
+import { LoginService } from '../dataServices/login.service';
 
 export interface ITechSkill
 {
@@ -58,7 +59,13 @@ export class ResumeWizardComponent implements OnInit {
     private location: Location,
     private _router: Router, 
     private _formBuilder: FormBuilder,
-    private _skillCategoryService: SkillCategoryService) {
+    private _skillCategoryService: SkillCategoryService,
+    private loginService: LoginService
+  ) {
+  }
+
+  get JWT(): string {
+    return this.loginService.JWT;
   }
 
   ngOnInit() {
@@ -68,6 +75,12 @@ export class ResumeWizardComponent implements OnInit {
       id = 0;
     }
     this.userId = id;
+
+    let jwt: string;
+    this.activeRoute.fragment.subscribe(item => jwt = item);
+    if (jwt != null && this.loginService.JWT == null) {
+      this.loginService.JWT = jwt;
+    }
   }
 
   preview() {
@@ -80,7 +93,7 @@ export class ResumeWizardComponent implements OnInit {
   }
 
   isLoggedIn(): boolean {
-    return (localStorage.getItem("jwt") ? true : false);
+    return (this.loginService.JWT ? true : false);
   }
 
 }

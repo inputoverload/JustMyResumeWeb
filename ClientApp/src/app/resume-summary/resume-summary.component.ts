@@ -59,21 +59,6 @@ export class ResumeSummaryComponent implements OnInit {
       width: '600px',
       data: { JWT: this.loginService.JWT }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      //alert(JSON.stringify(result));
-      if (result.Action == 'preview') {
-        this.previewItem(result.Id, result.Jwt);
-      }
-    });
-  }
-
-  previewItem(id: number, JWT: string) {
-    //this.router.navigate([ResumeSummaryComponent, id], new NavigationExtras[] );
-  }
-
-  editItem(id: number) {
-
   }
 
   addNew(): void {

@@ -2,7 +2,12 @@
   <mat-toolbar-row>
     <span>Resume Creator</span>
     <span class="toolbar-spacer"></span>
-    <mat-icon (click)="preview()" class="toolbar-icon">find_in_page</mat-icon>&nbsp;
+    <a [routerLink]="['/resume', this.userId]" [fragment]="this.JWT">
+      <mat-icon class="toolbar-icon">find_in_page</mat-icon>
+    </a>&nbsp;
+    <a [routerLink]="['/resume/wizard', 0]" [fragment]="this.JWT">
+      <mat-icon class="toolbar-icon">add</mat-icon>
+    </a>&nbsp;
     <mat-icon *ngIf="isLoggedIn()" (click)="logout()" class="toolbar-icon">exit_to_app</mat-icon>
   </mat-toolbar-row>
 </mat-toolbar>

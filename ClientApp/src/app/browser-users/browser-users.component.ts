@@ -22,26 +22,17 @@ export class BrowserUsersComponent implements OnInit {
     private userService: UserService,
     private loginService: LoginService,
     private router: Router
-  ) {
-    this.JWT = this.loginService.JWT;
-  }
+  ) { }
 
   async ngOnInit() {
     try {
       this.columnsToDisplay = ['lastName', 'firstName', 'city', 'state', 'actions'];
 
       this.users = await this.userService.getUsers();
+      this.JWT = this.loginService.JWT;
     } catch (error) {
       console.warn(`An error occurred while loading the resumes: ${error.message}`);
     }
-  }
-
-  editItem(id: number) {
-    console.warn(this.loginService.JWT);
-  }
-
-  preview(id: number) {
-    this.dialogRef.close({Id: id, Jwt: this.JWT, Action: 'preview');
   }
 
 }
