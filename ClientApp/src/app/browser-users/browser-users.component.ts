@@ -34,14 +34,15 @@ export class BrowserUsersComponent implements OnInit {
     private userService: UserService,
     private loginService: LoginService,
     private router: Router
-  ) { }
+  ) {
+  }
 
   async ngOnInit() {
     try {
-      this.columnsToDisplay = ['lastName', 'firstName', 'city', 'state', 'actions'];
-      
+
       this.users = await this.userService.getUsers();
       this.dataSource = new MatTableDataSource(this.users);
+      this.columnsToDisplay = ['lastName', 'firstName', 'city', 'state', 'actions'];
       this.JWT = this.loginService.JWT;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

@@ -15,7 +15,7 @@
 
   <mat-step [stepControl]="userFormGroup">
     <ng-template matStepLabel>Fill out your personal information</ng-template>
-    <app-wizard-user #userStep></app-wizard-user>
+    <app-wizard-user #userStep (idUpdated)="updateChildControls($event)"></app-wizard-user>
   </mat-step>
 
   <mat-step [stepControl]="languageStep.skillsFormGroup">

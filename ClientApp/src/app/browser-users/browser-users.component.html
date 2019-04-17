@@ -40,4 +40,4 @@
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 </table>
-<mat-paginator #paginator [length]="this.dataSource.data.length" [pageSize]="5" (page)="pageEvent = getPaginatorData($event)"></mat-paginator>
+<mat-paginator #paginator [length]="this.dataSource ? this.dataSource.data.length : 0" [pageSize]="5" (page)="pageEvent = getPaginatorData($event)"></mat-paginator>

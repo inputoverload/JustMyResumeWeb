@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { OverlayRef } from '@angular/cdk/overlay';
 
 import { OverlayService } from '../uiServices/overlay/overlay.module';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.module';
@@ -9,7 +10,9 @@ import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.m
 import { MaterialModule } from '../material';
 import { User } from '../models/user';
 import { UserService } from '../dataServices/user.service';
-import { OverlayRef } from '@angular/cdk/overlay';
+import { LoginService } from '../dataServices/login.service';
+import { EventEmitter } from '@angular/core';
+import { PageEvent } from '@angular/material';
 
 @Component({
   selector: 'app-wizard-user',
@@ -17,11 +20,14 @@ import { OverlayRef } from '@angular/cdk/overlay';
   styleUrls: ['./wizard-user.component.css']
 })
 export class WizardUserComponent implements OnInit {
+  @Output() idUpdated: EventEmitter<any> = new EventEmitter();
+
   userFormGroup: FormGroup;
   user: User;
   userId: number;
 
   constructor(private activeRoute: ActivatedRoute,
+                private loginService: LoginService,
                 private location: Location,
                 private router: Router, 
                 private _formBuilder: FormBuilder,
@@ -69,7 +75,9 @@ export class WizardUserComponent implements OnInit {
       this.retrieveData();
       if (isNew) {
         this.user = await this._dataService.addUser(this.user);
-        this.router.navigateByUrl(`/resume/wizard/${this.user.id}`);
+        this.idUpdated.emit(this.user.id);
+        alert(this.user.id + " emitted.")
+        this.router.navigate([`/resume/wizard`, `${this.user.id}`], { fragment: this.loginService.JWT });
       } else {
         await this._dataService.updateUser(this.user);
       }
