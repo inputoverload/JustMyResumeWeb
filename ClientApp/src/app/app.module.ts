@@ -26,10 +26,15 @@ import { ResumeWizardComponent } from './resume-wizard/resume-wizard.component';
 import { AppOverlayModule } from './uiServices/overlay/overlay.module';
 import { ProgressSpinnerModule, ProgressSpinnerComponent } from './progress-spinner/progress-spinner.module';
 import { LoginComponent } from './login/login.component';
-import { HttpModule } from '@angular/http';
-import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 import { AuthGuard } from './guards/auth-guard.service';
 import { BrowserUsersComponent } from './browser-users/browser-users.component';
+import { LoginService } from './dataServices/login.service';
+import { EducationService } from './dataServices/education.service';
+import { SkillCategoryService } from './dataServices/skill-category.service';
+import { TechSkillService } from './dataServices/tech-skill.service';
+import { UserService } from './dataServices/user.service';
+import { ProjectService } from './dataServices/project.service';
+import { JobService } from './dataServices/job.service';
 
 
 @NgModule({
@@ -62,11 +67,17 @@ import { BrowserUsersComponent } from './browser-users/browser-users.component';
     MaterialModule,
     AppRoutingModule,
     AppOverlayModule,
-    ProgressSpinnerModule, 
-    JwtModule
+    ProgressSpinnerModule
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    EducationService,
+    JobService,
+    LoginService,
+    ProjectService,
+    SkillCategoryService,
+    TechSkillService,
+    UserService
   ],
   bootstrap: [AppComponent],
   entryComponents: [AppComponent,
