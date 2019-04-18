@@ -39,22 +39,15 @@ export class LoginComponent implements OnInit {
  async login(form: NgForm) {
 
    try {
-     let token = await this.http.post<string>(
+     let token = await this.http.post<JWTTokenString>(
        `${this.loginService.url}`,
        JSON.stringify(form.value),
        httpOptions
      ).toPromise();
 
-     Observable.of(localStorage.setItem("jwt", token.token)).subscribe(
-       item => { return; },
-       err => console.warn('localStorate.setItem failed: ' + err.message),
-       () => {
-         this.loginService.JWT = token.token;
-         this.invalidLogin = false;
-         this.goHome();
-       }
-     );
-
+     this.loginService.JWT = token.token;
+     this.invalidLogin = false;
+     this.goHome();
    } catch (error)
    {
      this.invalidLogin = true;
@@ -66,4 +59,8 @@ export class LoginComponent implements OnInit {
     this.router.navigateByUrl("/");
   }
 
+}
+
+interface JWTTokenString {
+  token: string;
 }

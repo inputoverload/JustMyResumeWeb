@@ -27,11 +27,9 @@ export class UserEditorComponent implements OnInit {
   });
     user: User;
   
-    getUser(id: number): void {
-      this.userService.getUser(id).subscribe(user => {
-        this.user = user;
-        this.displayValues();
-      });
+    async getUser(id: number) {
+      this.user = await this.userService.getUser(id);
+      this.displayValues();
     }
 
   displayValues()
@@ -74,8 +72,8 @@ export class UserEditorComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService) { }
 
-  ngOnInit() {
-    this.getUser(this.dlgData.userId);
+  async ngOnInit() {
+    await this.getUser(this.dlgData.userId);
   }
 
 }

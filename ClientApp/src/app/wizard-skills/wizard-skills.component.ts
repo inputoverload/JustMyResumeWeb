@@ -141,7 +141,7 @@ export class WizardSkillsComponent implements OnInit {
     }
   }
   
-  async add(event: MatChipInputEvent, skillLevel: string): void {
+  async add(event: MatChipInputEvent, skillLevel: string) {
     if (this.userId < 1) {
       alert('You must save the personal information on the first step before saving anything else.');
       return;
@@ -185,7 +185,7 @@ export class WizardSkillsComponent implements OnInit {
     }
   }
 
-  async remove(skill: TechSkill, skillLevel: string): void {    
+  async remove(skill: TechSkill, skillLevel: string) {    
     var selectedSkills: TechSkill[];
 
     switch(skillLevel)
