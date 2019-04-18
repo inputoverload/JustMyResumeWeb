@@ -22,7 +22,8 @@ export class WizardJobsComponent implements OnInit {
   pageIndex: number = 0;
   pageSize: number = 5;
   lowValue: number = 0;
-  highValue: number = 5; 
+  highValue: number = 5;
+  pageEvent: any;
 
   jobs: Job[] = [];
   columnsToDiplay = ['employer', 'actions'];

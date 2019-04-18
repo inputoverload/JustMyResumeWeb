@@ -6,7 +6,7 @@ import { UserService } from '../dataServices/user.service';
 import { LoginService } from '../dataServices/login.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatSort, MatTableDataSource } from '@angular/material';
-import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
+import { MatPaginatorModule, MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-browser-users',
@@ -23,6 +23,7 @@ export class BrowserUsersComponent implements OnInit {
   pageSize: number = 5;
   lowValue: number = 0;
   highValue: number = 5;
+  pageEvent: any;
 
   dataSource: MatTableDataSource<User>;
 

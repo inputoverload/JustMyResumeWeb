@@ -63,13 +63,7 @@ import { BrowserUsersComponent } from './browser-users/browser-users.component';
     AppRoutingModule,
     AppOverlayModule,
     ProgressSpinnerModule, 
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: function tokenGetter() {
-          return localStorage.getItem('jwt');
-        }
-      }
-    })
+    JwtModule
   ],
   providers: [
     AuthGuard

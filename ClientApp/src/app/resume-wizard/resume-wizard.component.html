@@ -11,7 +11,7 @@
     <mat-icon *ngIf="isLoggedIn()" (click)="logout()" class="toolbar-icon">exit_to_app</mat-icon>
   </mat-toolbar-row>
 </mat-toolbar>
-<mat-vertical-stepper style="width: 100%" [linear]="isLinear" #stepper>
+<mat-vertical-stepper style="width: 100%" #stepper>
 
   <mat-step [stepControl]="userFormGroup">
     <ng-template matStepLabel>Fill out your personal information</ng-template>
