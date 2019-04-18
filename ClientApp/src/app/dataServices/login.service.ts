@@ -1,20 +1,46 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpHeaderResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 import { DataConfigModule } from './data-config';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
   public url = DataConfigModule.SERVER + '/api/auth/login';
+  private _JWT: string;
 
-  public JWT: string;
+  get JWT(): string {
+    this.buildToken();
+    
+    return this._JWT;
+  }
 
-  constructor() { }
+  set JWT(token: string) {
+    if (!token) return;
 
-  get httpOptions()
+    this._JWT = token;
+    localStorage.setItem("JWT", token);
+  }
+
+  buildToken() {
+    if (this._JWT) return;
+
+    if (localStorage.getItem("JWT")) {
+      this._JWT = localStorage.getItem("JWT");
+    }
+
+    if (this.activeRoute.snapshot.fragment) {
+      this._JWT = this.activeRoute.snapshot.fragment;
+    }
+  }
+
+  constructor(private activeRoute: ActivatedRoute) {
+    this.buildToken();
+  }
+
+  get httpOptions() 
   {
     let hh: HttpHeaders = new HttpHeaders();
     hh = hh.append('Authorization', 'Bearer ' + this.JWT);

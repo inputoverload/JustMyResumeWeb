@@ -41,7 +41,7 @@ export class ResumeWizardComponent implements OnInit {
 
   updateChildControls($event) {
     this.userId = $event;
-    alert("updating children to " + this.userId); 
+
     this.wizardJobs.userId = this.userId;
     this.wizardSkillApi.userId = this.userId;
     this.wizardSkillLanguages.userId = this.userId;

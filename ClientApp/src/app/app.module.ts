@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from './material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -67,7 +69,9 @@ import { JobService } from './dataServices/job.service';
     MaterialModule,
     AppRoutingModule,
     AppOverlayModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    HttpClientModule,
+    HttpModule
   ],
   providers: [
     AuthGuard,

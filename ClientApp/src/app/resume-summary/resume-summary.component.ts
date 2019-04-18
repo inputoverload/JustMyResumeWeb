@@ -3,8 +3,7 @@ import { ActivatedRoute, Router, NavigationExtras, NavigationStart } from '@angu
 import { Location } from '@angular/common';
 import { MaterialModule } from '../material'; 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { filter, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { LoginService } from '../dataServices/login.service';
 import { BrowserUsersComponent } from '../browser-users/browser-users.component';
@@ -30,20 +29,15 @@ export class ResumeSummaryComponent implements OnInit {
     private router: Router,
     private loginService: LoginService,
     public dialog: MatDialog
-  ) { }
+  ) {
+    this.userId = +this.activeRoute.snapshot.paramMap.get('id');
+  }
 
   ngOnInit() {
-    this.userId = +this.activeRoute.snapshot.paramMap.get('id');
-
-    let jwt: string;
-    this.activeRoute.fragment.subscribe(item => jwt = item);
-    if (jwt != null && this.loginService.JWT == null) {
-      this.loginService.JWT = jwt;
-    }
   }
 
   editUser(): void {
-    this.router.navigateByUrl(`/resume/wizard/${this.userId}`);
+    this.router.navigateByUrl(`/resume/wizard/${this.userId}`, {fragment: this.WebToken});
   }
 
   logout(): void {

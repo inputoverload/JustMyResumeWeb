@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoginService } from './dataServices/login.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  JWT: string;
+
+  constructor(
+    private loginService: LoginService
+  ) {
+    this.JWT = this.loginService.JWT;
+  }
 }

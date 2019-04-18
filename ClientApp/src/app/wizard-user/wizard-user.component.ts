@@ -76,7 +76,7 @@ export class WizardUserComponent implements OnInit {
       if (isNew) {
         this.user = await this._dataService.addUser(this.user);
         this.idUpdated.emit(this.user.id);
-        alert(this.user.id + " emitted.")
+
         this.router.navigate([`/resume/wizard`, `${this.user.id}`], { fragment: this.loginService.JWT });
       } else {
         await this._dataService.updateUser(this.user);

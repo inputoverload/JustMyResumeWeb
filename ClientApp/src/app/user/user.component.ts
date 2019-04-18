@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { User } from '../models/user';
 import { UserService } from '../dataServices/user.service';
 import { MaterialModule } from '../material';
+import { LoginService } from '../dataServices/login.service';
 
 @Component({
   selector: 'app-user',
@@ -14,6 +15,7 @@ import { MaterialModule } from '../material';
 export class UserComponent implements OnInit {
 
   user: User;
+  userId: number;
 
   async getUser(id: number) {
     try {
@@ -26,14 +28,15 @@ export class UserComponent implements OnInit {
   constructor(
     private activeRoute: ActivatedRoute,
     private userService: UserService,
-    private location: Location
+    private location: Location,
+    private loginService: LoginService
   ) {
+    this.userId = +this.activeRoute.snapshot.paramMap.get('id');
   }
 
   async ngOnInit() {
-    let id: number;
-    id = +this.activeRoute.snapshot.paramMap.get('id');
-    await this.getUser(id);
+
+    await this.getUser(this.userId);
   }
 
 }

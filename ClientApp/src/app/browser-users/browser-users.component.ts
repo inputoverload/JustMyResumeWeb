@@ -7,6 +7,7 @@ import { LoginService } from '../dataServices/login.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatSort, MatTableDataSource } from '@angular/material';
 import { MatPaginatorModule, MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-browser-users',
@@ -36,15 +37,16 @@ export class BrowserUsersComponent implements OnInit {
     private loginService: LoginService,
     private router: Router
   ) {
+
   }
 
   async ngOnInit() {
     try {
 
+      this.JWT = this.loginService.JWT;
       this.users = await this.userService.getUsers();
       this.dataSource = new MatTableDataSource(this.users);
       this.columnsToDisplay = ['lastName', 'firstName', 'city', 'state', 'actions'];
-      this.JWT = this.loginService.JWT;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } catch (error) {

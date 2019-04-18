@@ -1,14 +1,12 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/observable/of';
-
 import { LoginService } from '../dataServices/login.service';
 import { MaterialModule } from '../material';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
+import { ResumeSummaryComponent } from '../resume-summary/resume-summary.component';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -34,27 +32,26 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
- async login(form: NgForm) {
+ login(form: NgForm) {
 
    try {
-     let token = await this.http.post<JWTTokenString>(
+     let token = this.http.post<JWTTokenString>(
        `${this.loginService.url}`,
        JSON.stringify(form.value),
        httpOptions
-     ).toPromise();
+     ).subscribe(item => this.loginService.JWT = item.token,
+       err => console.warn("Error authenticting: " + err.message),
+       () => this.goHome()
+     );
 
-     this.loginService.JWT = token.token;
-     this.invalidLogin = false;
-     this.goHome();
    } catch (error)
    {
-     this.invalidLogin = true;
      console.warn("Error logging in: " + error.message);
    }
   } 
 
   goHome() {
-    this.router.navigateByUrl("/");
+    this.router.navigateByUrl("/resume/1", { fragment: this.loginService.JWT });
   }
 
 }
