@@ -37,7 +37,7 @@ export class LoginService {
   }
 
   constructor(private activeRoute: ActivatedRoute) {
-    this.buildToken();
+    this.buildToken(); 
   }
 
   get httpOptions() 
